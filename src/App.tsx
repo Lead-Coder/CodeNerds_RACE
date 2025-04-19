@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from './pages/signup'
 import Login from './pages/login'
+import Dashboard from './pages/dashboard'
 import Landing from './pages/landing'
 import Cover from './pages/coverletter'
 import Resume from './pages/resume'
@@ -19,6 +20,7 @@ function App() {
         <Route path="/resume-builder" element={<Resume />} />
         <Route path="/analysis" element={<Analysis />} />
         <Route path="/coverletter" element={<Cover />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
     </>
