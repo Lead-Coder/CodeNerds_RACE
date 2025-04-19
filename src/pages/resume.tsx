@@ -24,7 +24,7 @@ const ResumeBuilder: React.FC = () => {
     }
   };
   
-  const Submit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
   
@@ -76,35 +76,6 @@ const ResumeBuilder: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    
-    try {
-      // Mock API call - replace with actual API endpoint
-      // const response = await fetch('/api/parse-resume', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
-      
-      // const data = await response.json();
-      // setGeneratedResumeUrl(data.pdfUrl);
-      
-      // Mock response for demonstration
-      setTimeout(() => {
-        setGeneratedResumeUrl('/sample-resume.pdf');
-        setSuccess(true);
-        setLoading(false);
-      }, 2000);
-      
-    } catch (error) {
-      console.error('Error generating resume:', error);
-      setLoading(false);
-    }
-  };
 
   const handleReset = () => {
     setFormData({
@@ -249,7 +220,7 @@ const ResumeBuilder: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                onClick={Submit}
+                onClick={handleSubmit}
                 className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}>
                 {loading ? (
                   <div className="flex items-center">
