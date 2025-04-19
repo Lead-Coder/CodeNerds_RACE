@@ -396,8 +396,65 @@ def get_cover_letter_tex(prompt: str) -> str:
 
 # latex_creation.generate_pdf(latex_path, global_VARS["OUTPUT_DIR"])
 
+def generate_cover_letter() -> str:
+    resume_path = os.path.join(global_VARS["OUTPUT_DIR"], "resume.txt")
+    with open(resume_path, "r", encoding="utf-8") as f:
+        resume_data = f.read()
+
+    job_description_path = os.path.join(global_VARS["INPUT_DIR"], "job_description.txt")
+    with open(resume_path, "r", encoding="utf-8") as f:
+        job_description = f.read()
+
+    prompt = f"""
+You are a professional career assistant specialized in writing compelling, personalized cover letters.
+
+Given the following information:
+
+1. Candidate Resume Text:
+{resume_data}
+
+2. Job Description:
+{job_description}
+
+Please generate a personalized and ATS-friendly cover letter tailored for this specific job.
+
+Requirements:
+- Address the hiring manager professionally (use 'Dear Hiring Manager' if no name is available).
+- Highlight the candidate's most relevant experiences and achievements.
+- Emphasize alignment with the job responsibilities and required skills.
+- Mention the company by name if available and express genuine interest in the role.
+- Keep the tone confident, enthusiastic, and professional.
+- Use clear structure: Introduction, Skills Alignment, Value Proposition, Closing.
+- Limit the letter to 3-4 short, powerful paragraphs.
+- Avoid generic filler text or buzzwords.
+- Output only the final letter content — no comments, metadata, or extra formatting.
+
+Make the letter strong, personalized, and ready to be converted into LaTeX.
+"""
+
+    cover_text = ats_score.query_deepseek(prompt)
+
+    with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.txt"), "w", encoding="utf-8") as f:
+        f.write(cover_text)
+
+    # Prompt to convert to LaTeX
+    tex_prompt = f"""
+Convert the following professional cover letter into LaTeX code, suitable for a standalone document.
+Use standard documentclass like `article` or `letter`, include proper formatting, date, sender and recipient sections, and use professional fonts.
+
+Cover Letter:
+
+{cover_text}
+"""
+    latex_code = ats_score.query_deepseek(tex_prompt)
+
+    with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), "w", encoding="utf-8") as f:
+        f.write(latex_code)
+
+
+
 # === Main Flow ===
-def create_resume(resume_path, jd_path, extra_info):
+def create_resume(resume_path, jd, extra_info):
     print(resume_path)
     print("Parsing resume...")
     PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
@@ -410,7 +467,10 @@ def create_resume(resume_path, jd_path, extra_info):
     os.makedirs(global_VARS["JSON_DIR"], exist_ok=True)
     global_VARS["MODEL_PATH"] = "ML\\models\\skill2vec.model"
     resume_path_ = PUBLIC_FOLDER + resume_path
-    global_VARS["jd_path"] = PUBLIC_FOLDER + jd_path
+    global_VARS["jd_path"] = global_VARS + "\\upload\\jobDescription.txt"
+    with open(global_VARS["jd_path"]) as f:
+        f.write(jd)
+        
     global_VARS["extra_files_info"] = extra_info
     global_VARS["Resume_file"] = resume_path_
 
@@ -425,5 +485,7 @@ def create_resume(resume_path, jd_path, extra_info):
     print("jd parsed")
     tailor_resume()
     print("parsed tailored")
+    generate_cover_letter()
+    
 
 
