@@ -17,7 +17,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/resume-builder" element={<Resume />} />
         <Route path="/coverletter" element={<Cover />} />
-        
       </Routes>
     </Router>
     </>

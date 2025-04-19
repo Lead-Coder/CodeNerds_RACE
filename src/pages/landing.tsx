@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import './main.css';
 
 const Landing = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,7 +15,7 @@ const Landing = () => {
               <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-900 flex items-center justify-center shadow-md">
                 <span className="text-white font-bold text-xl">R</span>
               </div>
-              <span className="font-bold text-2xl tracking-tight">RACE</span>
+              <span className="font-bold text-2xl tracking-tight">RESUME ACE</span>
             </Link>
 
             <div className="hidden md:flex items-center space-x-6">
@@ -62,10 +63,17 @@ const Landing = () => {
               <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
                 Transform your resume, ace ATS systems, and land more interviews with our advanced AI-powered platform.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/signup" className="px-8 py-3 bg-gradient-to-r from-blue-600 to-pink-500 text-white rounded-lg hover:opacity-90 transition-all text-center font-medium shadow-sm">
-                  Get Started Free
-                </Link>
+              <div className="flex flex-col sm:flex-row gap-4 group">
+                <Link
+                to="/signup"
+                className="relative inline-block px-8 py-3 text-white rounded-lg text-center font-medium shadow-sm overflow-hidden group"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-pink-500 transition-opacity duration-300 group-hover:opacity-0 z-0"></span>
+
+                <span className="absolute inset-0 bg-gradient-to-r from-black to-blue-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0"></span>
+
+                <span className="relative z-10">Get Started Free</span>
+              </Link>
                 <Link to="/#features" className="px-8 py-3 border border-blue-500 text-indigo-600 rounded-lg hover:bg-purple-50 transition-colors text-center font-medium">
                   Explore Features
                 </Link>
@@ -117,7 +125,7 @@ const Landing = () => {
                     
                     <div className="p-4 rounded-lg bg-gray-50 border border-gray-100 shadow-sm hover:border-purple-100 transition-colors">
                       <div className="flex items-start">
-                        <div className="p-2 rounded-full bg-yellow-100 text-yellow-600 mr-3 flex-shrink-0">
+                        <div className="p-2 rounded-full bg-blue-100 text-blue-400 mr-3 flex-shrink-0">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                           </svg>
