@@ -26,12 +26,10 @@ import latex_creation
 # os.makedirs(JSON_DIR, exist_ok=True)
 # os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# global_VARS = {
-#     "PUBLIC_FOLDER": os.path.abspath(os.path.join(os.path.dirname(__file__), "../public")),
-#     "INPUT_DIR": os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../public")), "input"), 
-# }
+global_VARS = {
+}
 
-def parse_resume(resume_file, JSON_DIR):
+def parse_resume(resume_file):
     nlp = spacy.load("en_core_web_sm")
 
     def is_image(file_path):
@@ -131,7 +129,7 @@ def parse_resume(resume_file, JSON_DIR):
         full_data = merge_into_schema(basic_info, section_data)
         print("[INFO] Resume processing complete.")
 
-        output_path = os.path.join(JSON_DIR, "resume.json")
+        output_path = os.path.join(global_VARS["JSON_DIR"], "resume.json")
         with open(output_path, "w") as f:
             json.dump(full_data, f, indent=4)
         print(f"[✓] Resume parsed and saved to: {output_path}")
@@ -141,19 +139,19 @@ def parse_resume(resume_file, JSON_DIR):
 
 
 def make_skill2vec_model():
-    if os.path.exists(MODEL_PATH):
+    if os.path.exists(global_VARS["OUTPUT_DIR"]):
         return 
     df = pd.read_csv('input\\skill2vec_50K.csv', header=None, low_memory=False)
     corpus = df.iloc[:, 1:].values.tolist()
     corpus = [[str(skill) for skill in row if pd.notnull(skill)] for row in corpus]
 
     model = Word2Vec(sentences=corpus, vector_size=100, window=5, min_count=1, workers=4)
-    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
-    model.save(MODEL_PATH)
+    os.makedirs(os.path.dirname(global_VARS["OUTPUT_DIR"]), exist_ok=True)
+    model.save(global_VARS["OUTPUT_DIR"])
 
 
 def compare_jd_resume():
-    model = Word2Vec.load(MODEL_PATH)
+    model = Word2Vec.load(global_VARS["OUTPUT_DIR"])
 
     def extract_skills_from_job(job_description):
         words = job_description.split()
@@ -196,8 +194,8 @@ def compare_jd_resume():
     Python, machine learning, SQL, and data analytics. Familiarity with
     cloud technologies like AWS and Azure is a plus."""
 
-    resume_filename = os.path.join(JSON_DIR, "resume.json")
-    output_filename = os.path.join(JSON_DIR, "requirements.json")
+    resume_filename = os.path.join(global_VARS["JSON_DIR"], "resume.json")
+    output_filename = os.path.join(global_VARS["JSON_DIR"], "requirements.json")
 
     generate_requirements_json(job_description, resume_filename, output_filename)
 
@@ -238,15 +236,15 @@ Let's begin.
 
 def generate_pdf(template_path, output_path):
 
-    latex_creation.generate_latex(template_path, os.path.join(OUTPUT_DIR, "tex.txt"))
+    latex_creation.generate_latex(template_path, os.path.join(global_VARS["OUTPUT_DIR"], "tex.txt"))
 
     print("latex generateed")
 
-    resume_path = latex_creation.generate_pdf(template_path, OUTPUT_DIR)
+    resume_path = latex_creation.generate_pdf(template_path, global_VARS["OUTPUT_DIR"])
 
     print("pdf generateed")
 
-    return os.path.join(OUTPUT_DIR, "tex.txt"), resume_path 
+    return os.path.join(global_VARS["OUTPUT_DIR"], "tex.txt"), resume_path 
     
 
 
@@ -255,9 +253,9 @@ def tailor_resume():
         with open(file_path, 'r') as f:
             return json.load(f)
 
-    requirements = load_json(os.path.join(JSON_DIR, 'requirements.json'))
-    resume = load_json(os.path.join(JSON_DIR, 'resume.json'))
-    extra_info = load_json(extra_info_file)
+    requirements = load_json(os.path.join(global_VARS["JSON_DIR"], 'requirements.json'))
+    resume = load_json(os.path.join(global_VARS["JSON_DIR"], 'resume.json'))
+    extra_info = load_json(global_VARS["extra_files_info"])
 
     prompt = f"""
 You are an expert resume writer.
@@ -276,7 +274,7 @@ Return ONLY the final polished resume. No extra explanations.
 Let's begin.
     """
     ats = 0
-    resume_text_path = os.path.join(OUTPUT_DIR, 'resume.txt')
+    resume_text_path = os.path.join(global_VARS["OUTPUT_DIR"], 'resume.txt')
     count = 0
 
     while count < 5  and ats < 85:
@@ -389,21 +387,23 @@ def get_cover_letter_tex(prompt: str) -> str:
 
 # latex_path = "templates/template.txt"
 
-# latex_creation.generate_pdf(latex_path, OUTPUT_DIR)
+# latex_creation.generate_pdf(latex_path, global_VARS["OUTPUT_DIR"])
 
 # === Main Flow ===
 def create_resume(resume_path, jd_path, extra_info_path):
     print("Parsing resume...")
     PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
+    global_VARS["PUBLIC_FOLDER"] = PUBLIC_FOLDER
+    global_VARS["INPUT_DIR"] = os.path.join(PUBLIC_FOLDER, "input")
+    global_VARS["JSON_DIR"] = os.path.join(PUBLIC_FOLDER, "jsons")
+    global_VARS["OUTPUT_DIR"] = os.path.join(PUBLIC_FOLDER, "output")
+    global_VARS["MODEL_PATH"] = "ML\\models\\skill2vec.model"
     resume_path_ = PUBLIC_FOLDER + resume_path
-    INPUT_DIR = os.path.join(PUBLIC_FOLDER, "input")
-    JSON_DIR = os.path.join(PUBLIC_FOLDER, "jsons")
-    OUTPUT_DIR = os.path.join(PUBLIC_FOLDER, "output")
-    MODEL_PATH = "ml\\models\\skill2vec.model"
-    OUTPUT_DIR = os.path.join(PUBLIC_FOLDER, "output")
-    
+    global_VARS["extra_files_info"] = PUBLIC_FOLDER + extra_info_path
+    global_VARS["Resume_file"] = resume_path_
+
     print(resume_path_)
-    parse_resume(resume_path_, JSON_DIR)
+    parse_resume(resume_path_)
     print("resume parsed")
     make_skill2vec_model()
     print("model trained")
