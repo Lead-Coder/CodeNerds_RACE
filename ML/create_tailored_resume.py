@@ -224,10 +224,7 @@ Let's begin.
 
 """
 
-    command = ["ollama", "run", "deepseek-r1:8b"]
-    result = subprocess.run(command, input=prompt, capture_output=True, text=True)
-    output = result.stdout.strip().replace("<think>", "").replace("</think>", "").strip()
-    
+    output = ats_score.query_deepseek(prompt)
 
     with open(output_path, 'w') as f:
         f.write(output)
@@ -318,9 +315,8 @@ Make it polished, compelling, and fully optimized for both recruiters and applic
 
 
 def create_txt_resume(prompt, output_path):
-    command = ["ollama", "run", "deepseek-r1:8b"]
-    result = subprocess.run(command, input=prompt, capture_output=True, text=True)
-    output = result.stdout.strip().replace("<think>", "").replace("</think>", "").strip()
+    output = ats_score.query_deepseek(prompt)
+
 
     with open(output_path, 'w') as f:
         f.write(output)
@@ -334,32 +330,9 @@ def get_cover_letter_tex(prompt: str) -> str:
     """
     Query the local Ollama deepseek-r1:8b model via subprocess.
     """
-    command = ["ollama", "run", "deepseek-r1:8b"]
-    result = subprocess.run(
-        command,
-        input=prompt.encode("utf-8"),
-        capture_output=True,
-        text=False  # important!
-    )
-    output = result.stdout.decode("utf-8", errors="replace")
-   
-    # Remove <think> blocks if they exist
-    lines = output.splitlines()
-    clean_output = []
-    in_think_block = False
-    for line in lines:
-        if line.strip().startswith("<think>"):
-            in_think_block = True
-            continue
-        if line.strip().startswith("</think>"):
-            in_think_block = False
-            continue
-        if not in_think_block:
-            clean_output.append(line)
-   
-    final_output = "\n".join(clean_output).strip()
-    print(final_output)
-    return final_output
+    output = ats_score.query_deepseek(prompt)
+
+    return output
 
 # # === Load the generated cover letter ===
 # with open("generated_cover_letter.txt", "r", encoding="utf-8") as f:
