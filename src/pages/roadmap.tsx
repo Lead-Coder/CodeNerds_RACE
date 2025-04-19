@@ -1,7 +1,4 @@
-"use client"
-
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import cytoscape from "cytoscape"
@@ -28,6 +25,7 @@ import {
   faCloud,
   faDatabase,
   faShip,
+  faRobot,
 } from "@fortawesome/free-solid-svg-icons"
 import { faDocker } from "@fortawesome/free-brands-svg-icons"
 
@@ -109,8 +107,44 @@ const ColorfulRoadmap: React.FC = () => {
   const [roadmapTitle, setRoadmapTitle] = useState<string>("Frontend Developer")
   const containerRef = useRef<HTMLDivElement>(null)
   const cy = useRef<any>(null)
+  //const [activeTab, setActiveTab] = useState("graph");
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatInput, setChatInput] = useState("");
+  const [messages, setMessages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
-  // Available roadmap options with descriptions, theme colors, and icons
+
+  const handleSend = async () => {
+    if (!chatInput.trim()) return;
+  
+    const userMessage = `You: ${chatInput}`;
+    setMessages(prev => [...prev, userMessage]);
+    setChatInput('');
+    setIsLoading(true);
+  
+    try {
+      const res = await fetch('http://localhost:3000/api/deepseek', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: chatInput })
+      });
+  
+      if (!res.ok) throw new Error("Failed to fetch response");
+  
+      const data = await res.json();
+      const cleanedBotResponse = data.response.replace(/^You:\s*/i, "").trim();
+      setMessages(prev => [...prev, `🤖: ${cleanedBotResponse}`]);
+    } catch (err) {
+      console.error('Error:', err);
+      setMessages(prev => [...prev, `🤖: Something went wrong.`]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+
+
   const roadmapOptions: RoadmapOption[] = [
     {
       value: "frontend",
@@ -267,8 +301,6 @@ const ColorfulRoadmap: React.FC = () => {
       icon: faShip,
     },
   ]
-
-
 
   // Get the current roadmap color theme
   const getCurrentRoadmapColor = () => {
@@ -1136,8 +1168,7 @@ const ColorfulRoadmap: React.FC = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search skills..."
-                  className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 pl-10 pr-3 py-2 text-sm"
-                />
+                  className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 pl-10 pr-3 py-2 text-sm"/>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FontAwesomeIcon icon={faSearch} className="h-4 w-4 text-gray-400" />
                 </div>
@@ -1150,8 +1181,7 @@ const ColorfulRoadmap: React.FC = () => {
                 style={{
                   background: `linear-gradient(45deg, ${getCurrentRoadmapColor()}20, white)`,
                   borderLeft: `4px solid ${getCurrentRoadmapColor()}`,
-                }}
-              >
+                }}>
                 {roadmapOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -1188,8 +1218,7 @@ const ColorfulRoadmap: React.FC = () => {
             <button
               onClick={exportProgress}
               className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg text-sm font-medium transition-colors shadow-md"
-              title="Export your progress"
-            >
+              title="Export your progress">
               <FontAwesomeIcon icon={faDownload} className="h-4 w-4" />
               <span>Export Progress</span>
             </button>
@@ -1219,13 +1248,11 @@ const ColorfulRoadmap: React.FC = () => {
                   className="h-5 w-5 text-red-400"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
+                  fill="currentColor">
                   <path
                     fillRule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
+                    clipRule="evenodd"/>
                 </svg>
               </div>
               <div className="ml-3">
@@ -1233,8 +1260,7 @@ const ColorfulRoadmap: React.FC = () => {
                 <p className="text-sm text-red-700 mt-1">{error}</p>
                 <button
                   onClick={() => fetchRoadmapData(roadmapType)}
-                  className="mt-2 text-sm text-red-600 hover:text-red-500 font-medium"
-                >
+                  className="mt-2 text-sm text-red-600 hover:text-red-500 font-medium">
                   Try again
                 </button>
               </div>
@@ -1254,8 +1280,7 @@ const ColorfulRoadmap: React.FC = () => {
                         ? "text-blue-600 border-b-2 border-blue-600 bg-white"
                         : "text-gray-500 hover:text-gray-600 hover:border-gray-300"
                     }`}
-                    onClick={() => setActiveTab("graph")}
-                  >
+                    onClick={() => setActiveTab("graph")}>
                     <FontAwesomeIcon icon={faProjectDiagram} className="h-4 w-4 mr-2" />
                     Graph View
                   </button>
@@ -1267,14 +1292,88 @@ const ColorfulRoadmap: React.FC = () => {
                         ? "text-blue-600 border-b-2 border-blue-600 bg-white"
                         : "text-gray-500 hover:text-gray-600 hover:border-gray-300"
                     }`}
-                    onClick={() => setActiveTab("list")}
-                  >
+                    onClick={() => setActiveTab("list")}>
                     <FontAwesomeIcon icon={faList} className="h-4 w-4 mr-2" />
                     List View
                   </button>
                 </li>
               </ul>
             </div>
+
+          {/* Chatbot */}
+          {!isChatOpen && (
+            <button
+              onClick={() => setIsChatOpen(true)}
+              className="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 z-50"
+              title="Open Chat">
+              <FontAwesomeIcon icon={faRobot} className="h-8 w-8" />
+            </button>
+          )}
+
+            {/* Chat Panel */}
+            {isChatOpen && (
+              <div
+                className={`fixed bottom-6 right-6 ${
+                  isFullScreen ? 'inset-0 m-0 w-full h-full rounded-none' : 'w-[360px] h-[500px]'
+                } bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col z-50 transition-all duration-300`}>
+            <div className="flex justify-between items-center px-4 py-2 bg-blue-600 text-white rounded-t-lg">
+              <span className="font-semibold text-base">🤖 AI Chatbot</span>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setIsFullScreen(prev => !prev)}
+                  className="text-white hover:text-gray-200"
+                  title="Toggle Fullscreen"
+                >
+                  {isFullScreen ? '🗗' : '🗖'}
+                </button>
+                <button onClick={() => setIsChatOpen(false)} title="Close">✕</button>
+              </div>
+            </div>
+
+            <div className="flex-1 p-3 overflow-y-auto space-y-3 bg-gray-50 text-sm">
+              {messages.map((msg, idx) => {
+                const isBot = msg.startsWith("🤖:");
+                const content = msg.replace(/^🤖:\s*|^You:\s*/i, '');
+
+                return (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg max-w-[80%] whitespace-pre-line ${
+                      isBot
+                        ? 'bg-blue-100 text-gray-800 self-start'
+                        : 'bg-green-100 text-gray-800 self-end ml-auto'
+                    }`}
+                  >
+                    <span className="block font-medium mb-1">
+                      {isBot ? '🤖 Bot' : '🧑 You'}
+                    </span>
+                    {content}
+                  </div>
+                );
+              })}
+              {isLoading && (
+                <div className="text-blue-500 italic animate-pulse">🤖 is thinking...</div>
+              )}
+            </div>
+
+            <div className="p-3 border-t flex items-center gap-2">
+              <input
+                type="text"
+                className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Type a message..."
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              />
+              <button
+                onClick={handleSend}
+                disabled={isLoading}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50">
+                Send
+              </button>
+            </div>
+          </div>
+        )}
 
             {/* Graph View */}
             {activeTab === "graph" && (

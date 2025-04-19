@@ -19,13 +19,12 @@ const Login = () => {
         password,
       });
 
-      // Store email and token if needed
-      setEmail(email); // Update context
-      localStorage.setItem("userEmail", email); // Store email
-      localStorage.setItem("token", result.data.token); // Optional if using JWT
+      setEmail(email); 
+      localStorage.setItem("userEmail", email); 
+      localStorage.setItem("token", result.data.token); 
 
       alert("Login Successful");
-      navigate("/coverletter");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error logging in:", error);
       alert("Login failed. Please check your credentials.");
@@ -42,7 +41,7 @@ const Login = () => {
             <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none">
               <path stroke="currentColor" strokeWidth="2" d="M9 12h6m-6 4h6m2 4H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v12a2 2 0 01-2 2z" />
             </svg>
-            <span className="ml-2 text-2xl font-bold">Resume AI</span>
+            <span className="ml-2 text-2xl font-bold">Resume Ace</span>
           </Link>
           <h2 className="mt-6 text-3xl font-extrabold text-slate-900 dark:text-white">
             Sign in to your account
@@ -58,27 +57,24 @@ const Login = () => {
               <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
               <input id="email" type="email" required placeholder="you@example.com"
                 className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
-                onChange={(e) => setEmailInput(e.target.value)}
-              />
+                onChange={(e) => setEmailInput(e.target.value)}/>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
               <input id="password" type="password" required
                 className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+                onChange={(e) => setPassword(e.target.value)}/>
             </div>
 
             <button type="submit" disabled={isLoading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
-            >
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
               {isLoading ? "Signing in..." : "Sign in"}
             </button>
           </form>
 
           <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
-            Don’t have an account? <Link to="/signup" className="text-primary hover:underline">Sign up</Link>
+            Don’t have an account? <Link to="/signup" className="text-primary text-blue-500 hover:underline">Sign up</Link>
           </div>
         </div>
       </div>

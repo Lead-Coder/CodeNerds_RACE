@@ -8,6 +8,7 @@ import Cover from './pages/coverletter'
 import Resume from './pages/resume'
 import Analysis from './pages/analysis'
 import Roadmap from './pages/roadmap'
+import Latex from './pages/latex'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/coverletter" element={<Cover />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/roadmap" element={<Roadmap />} />
+        <Route path="/latex" element={<Latex />} />
       </Routes>
     </Router>
     </>
