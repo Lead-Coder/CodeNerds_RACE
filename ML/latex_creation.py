@@ -44,8 +44,6 @@ def render_with_tectonic(latex_code: str,
 
     return pdf_path
 
-def generate_latex():
-    pass
 
 def read_file(file):
     with open(file) as f:

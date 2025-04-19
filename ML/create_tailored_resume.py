@@ -176,14 +176,50 @@ def compare_jd_resume():
     generate_requirements_json(job_description, resume_filename, output_filename)
 
 
+def generate_latex(template_path, resume_path, output_path):
+
+    resume_text = ats_score.read_file(resume_path)
+    template_text = ats_score.read_file(template_path)
+    prompt = f"""
+You are an expert resume writer and LaTeX template integrator.
+
+Using the information below:
+- Existing Resume Data (in plain text format): {json.dumps(resume_text)}
+- Template Information (in LaTeX format): {json.dumps(template_text)}
+
+1. Analyze the provided resume in plain text and extract key sections: Contact Information, Objective, Skills, Experience, Education, and any Additional Information.
+2. Fit the extracted sections into the corresponding parts of the provided LaTeX template.
+3. Ensure the LaTeX formatting is correct, including proper handling of bullet points, section titles, and paragraph formatting.
+4. Polish the content with action verbs, quantification tips, and industry-aligned phrasing to make it impactful, concise, and professional.
+5. Return ONLY the LaTeX code with the updated resume. No extra explanations or commentary.
+6. Avoid making any assumptions or adding content that is not implied by the provided data.
+7. Do not use emojis or any informal elements.
+8. Use standard LaTeX packages that are widely available and professional.
+
+Let's begin.
+
+"""
+
+    command = ["ollama", "run", "deepseek-r1:8b"]
+    result = subprocess.run(command, input=prompt, capture_output=True, text=True)
+    output = result.stdout.strip().replace("<think>", "").replace("</think>", "").strip()
+    
+
+    with open(output_path, 'w') as f:
+        f.write(output)
+    print(f"[✓] Tailored resume saved to {output_path}")
+
+
 def generate_pdf(template_path, output_path):
-    latex_creation.generate_latex(template_path, output_path)
+
+    latex_creation.generate_latex(template_path, os.path.join(OUTPUT_DIR, "tex.txt"))
 
     print("latex generateed")
 
     latex_creation.generate_pdf(template_path, OUTPUT_DIR)
 
     print("pdf generateed")
+    
 
 
 def tailor_resume():
