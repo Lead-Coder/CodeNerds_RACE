@@ -1,4 +1,4 @@
-//import DashboardLayout from "../components/DashboardLayout";
+import DashboardLayout from "../components/Layout";
 import { useState } from "react";
 
 const CoverLetterGenerator = () => {
@@ -13,33 +13,20 @@ const CoverLetterGenerator = () => {
   // Mock data
   const myCoverLetters = [
     { id: 1, name: "Product Manager Application", company: "TechCorp", date: "1 week ago" },
-    { id: 2, name: "Software Engineer - Acme Inc", company: "Acme Inc", date: "2 weeks ago" },
+    { id: 2, name: "Software Engineer - Acme Inc", company: "Six Ladders", date: "2 weeks ago" },
   ];
   
-  const templates = [
-    { id: 1, name: "Professional", category: "Traditional" },
-    { id: 2, name: "Creative", category: "Modern" },
-    { id: 3, name: "Technical", category: "Tech Industry" },
-    { id: 4, name: "Entry-Level", category: "Entry-Level" },
-  ];
-  
+
   const handleGenerate = () => {
     if (!company || !position || !jobDescription) return;
     
     setIsGenerating(true);
     setTimeout(() => {
-      const sampleContent = `Dear Hiring Manager,
+      const sampleContent = `Dear Dear ${company} Hiring Team,
 
-I am writing to express my interest in the ${position} position at ${company}. With over 5 years of experience in software development and a passion for creating efficient, user-friendly applications, I believe I would be a valuable addition to your team.
+I am excited to apply for the position of ${position} at ${company}. With a strong background and deep interest in this field, I believe I am well-suited for this opportunity.
 
-In my current role as Senior Developer at TechCorp, I've led the development of multiple web applications that have improved user engagement by 35%. My experience with the technologies mentioned in your job description, including React, TypeScript, and Node.js, has prepared me well for this opportunity.
-
-I'm particularly excited about ${company}'s focus on innovative solutions in the [industry] space. Your recent project involving [specific project mentioned in job description] resonates with my professional interests and experience.
-
-I look forward to the opportunity to discuss how my skills and experience align with your needs for the ${position} role. Thank you for considering my application.
-
-Sincerely,
-[Your Name]`;
+${jobDescription.slice(0, 150)}`
       
       setGeneratedContent(sampleContent);
       setIsGenerating(false);
@@ -47,9 +34,8 @@ Sincerely,
   };
 
   return (
-    //<DashboardLayout>
-    <>
-      <div className="mb-8 mx-auto my-auto my-4">
+    <DashboardLayout>
+      <div className="mb-8 mx-auto my-auto">
         <h1 className="text-2xl font-bold text-gray-900">Cover Letter Generator</h1>
         <p className="text-gray-600">Create customized cover letters for your job applications</p>
       </div>
@@ -63,8 +49,7 @@ Sincerely,
               activeTab === "generator"
                 ? "border-primary-500 text-primary-600"
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            }`}
-          >
+            }`}>
             Generate New
           </button>
           <button
@@ -93,8 +78,8 @@ Sincerely,
                   <input 
                     type="text" 
                     id="company" 
-                    className="input-field"
-                    placeholder="e.g. Acme Corporation"
+                    className="input-w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="e.g. Six Ladders"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}/>
                 </div>
@@ -106,7 +91,7 @@ Sincerely,
                   <input 
                     type="text" 
                     id="position" 
-                    className="input-field"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     placeholder="e.g. Senior Developer"
                     value={position}
                     onChange={(e) => setPosition(e.target.value)}/>
@@ -118,8 +103,7 @@ Sincerely,
                   </label>
                   <select 
                     id="template" 
-                    className="input-field"
-                  >
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                     <option value="professional">Professional</option>
                     <option value="creative">Creative</option>
                     <option value="technical">Technical</option>
@@ -133,11 +117,11 @@ Sincerely,
                   </label>
                   <select 
                     id="resume" 
-                    className="input-field"
-                  >
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                     <option value="1">Senior Developer Resume</option>
                     <option value="2">Junior Web Developer</option>
                     <option value="3">Software Engineer - General</option>
+                    <option value="4">Intern</option>
                   </select>
                 </div>
                 
@@ -148,7 +132,7 @@ Sincerely,
                   <textarea 
                     id="job-description" 
                     rows={6} 
-                    className="input-field"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Paste the job description here to create a tailored cover letter..."
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
@@ -158,16 +142,11 @@ Sincerely,
                 
                 <div className="pt-2">
                   <button 
-                    className="btn btn-primary w-full"
+                    className="ml-28 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                     onClick={handleGenerate}
-                    disabled={isGenerating || !company || !position || !jobDescription}
-                  >
+                    disabled={isGenerating || !company || !position || !jobDescription}>
                     {isGenerating ? (
-                      <div className="flex items-center justify-center">
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+                      <div className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                         Generating Cover Letter...
                       </div>
                     ) : (
@@ -274,17 +253,11 @@ Sincerely,
         <div>
           <div className="mb-6 flex justify-between items-center">
             <h2 className="text-lg font-medium text-gray-900">Your Cover Letters</h2>
-            <button className="btn btn-primary flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-              </svg>
-              Create New Cover Letter
-            </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {myCoverLetters.map((letter) => (
-              <div key={letter.id} className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition">
+              <div key={letter.id} className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg transition">
                 <div className="h-40 bg-gradient-to-r from-secondary-500 to-accent-500 p-6 flex items-center justify-center">
                   <div className="w-full max-w-[240px] h-32 bg-white rounded-md shadow-md flex items-center justify-center">
                     <div className="text-center p-4">
@@ -309,35 +282,14 @@ Sincerely,
                     </p>
                   </div>
                   <div className="mt-4 flex space-x-2">
-                    <button className="btn-primary w-full py-1.5 text-sm">Edit</button>
-                    <button className="text-gray-500 hover:text-gray-700 p-1.5">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-                      </svg>
-                    </button>
                   </div>
                 </div>
               </div>
             ))}
-
-            {/* Create New Cover Letter Card */}
-            <div className="bg-white rounded-lg border border-dashed border-gray-300 shadow-sm overflow-hidden hover:border-secondary-500 transition flex flex-col items-center justify-center h-[312px]">
-              <div className="p-6 text-center">
-                <div className="mx-auto h-12 w-12 rounded-full bg-secondary-100 flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-secondary-600">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Create New Cover Letter</h3>
-                <p className="text-sm text-gray-500 mb-4">Generate a customized cover letter for your next application</p>
-                <button className="btn btn-secondary w-full">Get Started</button>
-              </div>
-            </div>
           </div>
         </div>
       )}
-    {/* //</DashboardLayout> */}
-    </>
+    </DashboardLayout>
   );
 };
 
