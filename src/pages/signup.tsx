@@ -29,7 +29,7 @@ const Signup = () => {
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-8 w-8">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 4H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v12a2 2 0 01-2 2z" />
             </svg>
-            <span className="ml-2 text-2xl font-bold">Resume AI</span>
+            <span className="ml-2 text-2xl font-bold">Resume Ace</span>
           </Link>
           <h2 className="mt-6 text-3xl font-extrabold text-slate-900 dark:text-white">
             Create your account
@@ -78,7 +78,7 @@ const Signup = () => {
 
           <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
             Already have an account?{" "}
-            <Link to="/login" className="text-primary hover:underline">Sign in</Link>
+            <Link to="/login" className="text-primary text-blue-400 hover:underline">Sign in</Link>
           </div>
         </div>
       </div>
