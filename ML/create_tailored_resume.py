@@ -117,6 +117,8 @@ def parse_resume():
 
 
 def make_skill2vec_model():
+    if os.path.exists(MODEL_PATH):
+        return 
     df = pd.read_csv('input\\skill2vec_50K.csv', header=None, low_memory=False)
     corpus = df.iloc[:, 1:].values.tolist()
     corpus = [[str(skill) for skill in row if pd.notnull(skill)] for row in corpus]
@@ -216,9 +218,11 @@ def generate_pdf(template_path, output_path):
 
     print("latex generateed")
 
-    latex_creation.generate_pdf(template_path, OUTPUT_DIR)
+    resume_path = latex_creation.generate_pdf(template_path, OUTPUT_DIR)
 
     print("pdf generateed")
+
+    return os.path.join(OUTPUT_DIR, "tex.txt"), resume_path 
     
 
 
@@ -248,10 +252,11 @@ Return ONLY the final polished resume. No extra explanations.
 Let's begin.
     """
     ats = 0
-    output_path = os.path.join(OUTPUT_DIR, 'resume.txt')
+    resume_text_path = os.path.join(OUTPUT_DIR, 'resume.txt')
+    count = 0
 
     while count < 5  and ats < 85:
-        create_txt_resume(prompt, output_path)
+        create_txt_resume(prompt, resume_text_path)
         ats, remarks = ats_score.get_ats_and_remarks()
         prompt = f"""
 You are an expert resume writer and ATS optimization specialist.
@@ -285,9 +290,9 @@ Make it polished, compelling, and fully optimized for both recruiters and applic
 
     template_path = "templates/template.txt"
 
-    generate_pdf(template_path, output_path)
+    tex_file_path, resume_path = generate_pdf(template_path, resume_text_path)
 
-    return ats, output_path
+    return tex_file_path, resume_path  
 
 
 def create_txt_resume(prompt, output_path):
@@ -300,18 +305,77 @@ def create_txt_resume(prompt, output_path):
     print(f"[✓] Tailored resume saved to {output_path}")
 
 
+
+import subprocess
+
+def get_cover_letter_tex(prompt: str) -> str:
+    """
+    Query the local Ollama deepseek-r1:8b model via subprocess.
+    """
+    command = ["ollama", "run", "deepseek-r1:8b"]
+    result = subprocess.run(
+        command,
+        input=prompt.encode("utf-8"),
+        capture_output=True,
+        text=False  # important!
+    )
+    output = result.stdout.decode("utf-8", errors="replace")
+   
+    # Remove <think> blocks if they exist
+    lines = output.splitlines()
+    clean_output = []
+    in_think_block = False
+    for line in lines:
+        if line.strip().startswith("<think>"):
+            in_think_block = True
+            continue
+        if line.strip().startswith("</think>"):
+            in_think_block = False
+            continue
+        if not in_think_block:
+            clean_output.append(line)
+   
+    final_output = "\n".join(clean_output).strip()
+    print(final_output)
+    return final_output
+
+# # === Load the generated cover letter ===
+# with open("generated_cover_letter.txt", "r", encoding="utf-8") as f:
+#     cover_letter = f.read()
+
+# # === Prompt to convert cover letter to LaTeX ===
+# prompt = f"""
+# Convert the following professional cover letter into LaTeX code, suitable for a standalone document.
+# Use standard documentclass like `article` or `letter`, include proper formatting, date, sender and recipient sections, and use professional fonts.
+
+# Cover Letter:
+# \"\"\"
+# {cover_letter}
+# \"\"\"
+# """
+
+# # === Generate the LaTeX code ===
+# latex_code = get_cover_letter_tex(prompt)
+
+# # === Save LaTeX code to a file ===
+# with open("cover_letter.tex", "w", encoding="utf-8") as f:
+#     f.write(latex_code)
+
+
+
 # latex_path = "templates/template.txt"
 
 # latex_creation.generate_pdf(latex_path, OUTPUT_DIR)
 
 # === Main Flow ===
-parse_resume()
-print("resume parsed")
-make_skill2vec_model()
-print("model trained")
-compare_jd_resume()
-print("jd parsed")
-tailor_resume()
-print("parsed tailored")
+def create_resume(resume_path, jd_path, extra_info_path):
+    parse_resume()
+    print("resume parsed")
+    make_skill2vec_model()
+    print("model trained")
+    compare_jd_resume()
+    print("jd parsed")
+    tailor_resume()
+    print("parsed tailored")
 
 

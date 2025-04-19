@@ -54,6 +54,7 @@ def generate_pdf(latex_path, output_path):
     latex_code = read_file(latex_path)
     out_pdf = render_with_tectonic(latex_code, output_path)
     print(f"Generated PDF: {out_pdf}")
+    return out_pdf
    
 
 if __name__ == "__main__":
