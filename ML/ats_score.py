@@ -1,6 +1,7 @@
 import subprocess
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import create_tailored_resume
 
 # --- Hardcoded Inputs ---
 
@@ -58,7 +59,9 @@ def query_deepseek(prompt: str) -> str:
 # --- Main Execution ---
 # if __name__ == "__main__":
 # 1. Compute and display ATS score
-def get_ats_and_remarks(resume_text, job_description):
+def get_ats_and_remarks(resume="public/output/resume.txt", job_description=create_tailored_resume.global_VARS["jd_path"]):
+    job_description_text = read_file(job_description)
+    resume_text = read_file(resume)
     ats_score = compute_ats_score(job_description, resume_text)
     print(f"1. Job Description Match Score: {ats_score}%\n")
 
@@ -71,6 +74,16 @@ def get_ats_and_remarks(resume_text, job_description):
     {job_description}
 
     Provide your output in these sections:
+    Keyword match score
+    skills match score
+    format score
+    3 matching skills
+    3 missing skills
+
+    Personalized 3 step roadmap for each missing skill
+
+    also give me their priority 
+
     • Missing Keywords (list)
     • Profile Summary (concise)
     • Personalized Suggestions for skills, keywords, and achievements
