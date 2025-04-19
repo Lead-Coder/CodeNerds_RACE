@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import './main.css'
 
 const Landing = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
