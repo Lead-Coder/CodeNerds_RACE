@@ -5,6 +5,7 @@ import Login from './pages/login'
 import Landing from './pages/landing'
 import Cover from './pages/coverletter'
 import Resume from './pages/resume'
+import Analysis from './pages/analysis'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/resume-builder" element={<Resume />} />
+        <Route path="/analysis" element={<Analysis />} />
         <Route path="/coverletter" element={<Cover />} />
       </Routes>
     </Router>

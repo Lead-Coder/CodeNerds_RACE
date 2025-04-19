@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import './main.css';
 
 const Landing = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -270,7 +269,7 @@ const Landing = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all hover:-translate-y-1 duration-300 border border-gray-100">
               <div className="flex items-start">
                 <div className="w-12 h-12 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mr-4 flex-shrink-0">
