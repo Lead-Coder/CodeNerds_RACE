@@ -467,17 +467,12 @@ def create_resume(resume_path, jd, extra_info):
     os.makedirs(global_VARS["JSON_DIR"], exist_ok=True)
     global_VARS["MODEL_PATH"] = "ML\\models\\skill2vec.model"
     resume_path_ = PUBLIC_FOLDER + resume_path
-<<<<<<< Updated upstream
     global_VARS["jd_path"] = global_VARS + "\\upload\\jobDescription.txt"
     with open(global_VARS["jd_path"]) as f:
         f.write(jd)
         
-=======
-    global_VARS["jd_path"] = PUBLIC_FOLDER + jd_path
->>>>>>> Stashed changes
-=======
-    global_VARS["jd_path"] = PUBLIC_FOLDER + jd_path
->>>>>>> Stashed changes
+    global_VARS["jd_path"] = PUBLIC_FOLDER + jd
+    global_VARS["jd_path"] = PUBLIC_FOLDER + jd
     global_VARS["extra_files_info"] = extra_info
     global_VARS["Resume_file"] = resume_path_
 

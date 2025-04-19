@@ -60,7 +60,6 @@ def get_ats_score_remarks():
         return jsonify({"error": "Missing resume_path or jd_path in request"}), 400
 
     try:
-<<<<<<< Updated upstream
         # tex_file_path, resume_path  
         matrix1 = np.array([1, 2, 0])
         matrix2 = np.array(["asda", "asd", "as"])
@@ -72,10 +71,8 @@ def get_ats_score_remarks():
             "matrix3": matrix3.tolist()
         }
         # data = ats_score.get_ats_and_remarks(resume_path, jd_path)
-=======
         # ats_score, ai_output  
         data = ats_score.get_ats_and_remarks(resume_path, jd_path)
->>>>>>> Stashed changes
         return jsonify(data)
     except Exception as e:
         print("error", e)
