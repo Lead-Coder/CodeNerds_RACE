@@ -139,9 +139,9 @@ def parse_resume(resume_file):
 
 
 def make_skill2vec_model():
-    if os.path.exists(global_VARS["OUTPUT_DIR"]):
+    if os.path.exists(global_VARS["MODEL_PATH"]):
         return 
-    df = pd.read_csv('input\\skill2vec_50K.csv', header=None, low_memory=False)
+    df = pd.read_csv(global_VARS["MODEL_PATH"], header=None, low_memory=False)
     corpus = df.iloc[:, 1:].values.tolist()
     corpus = [[str(skill) for skill in row if pd.notnull(skill)] for row in corpus]
 
@@ -151,7 +151,7 @@ def make_skill2vec_model():
 
 
 def compare_jd_resume():
-    model = Word2Vec.load(global_VARS["OUTPUT_DIR"])
+    model = Word2Vec.load(global_VARS["MODEL_PATH"])
 
     def extract_skills_from_job(job_description):
         words = job_description.split()
@@ -365,11 +365,14 @@ def get_cover_letter_tex(prompt: str) -> str:
 # === Main Flow ===
 def create_resume(resume_path, jd_path, extra_info_path):
     print("Parsing resume...")
-    PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
+    # PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
+    PUBLIC_FOLDER = "F:/CodeNerds_RACE/public"
     global_VARS["PUBLIC_FOLDER"] = PUBLIC_FOLDER
     global_VARS["INPUT_DIR"] = os.path.join(PUBLIC_FOLDER, "input")
     global_VARS["JSON_DIR"] = os.path.join(PUBLIC_FOLDER, "jsons")
     global_VARS["OUTPUT_DIR"] = os.path.join(PUBLIC_FOLDER, "output")
+    os.makedirs(global_VARS["OUTPUT_DIR"], exist_ok=True)
+    os.makedirs(global_VARS["JSON_DIR"], exist_ok=True)
     global_VARS["MODEL_PATH"] = "ML\\models\\skill2vec.model"
     resume_path_ = PUBLIC_FOLDER + resume_path
     global_VARS["extra_files_info"] = PUBLIC_FOLDER + extra_info_path

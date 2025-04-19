@@ -15,7 +15,6 @@ resume_file = os.path.join(INPUT_DIR, "resume.pdf")
 extra_info_file = os.path.join(INPUT_DIR, "extra_info.json")
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:5173"], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
-
 @app.route('/generate_resume', methods=['POST', 'OPTIONS'])
 def generate_resume():
     if request.method == 'OPTIONS':
