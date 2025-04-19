@@ -22,23 +22,38 @@ const ResumeBuilder: React.FC = () => {
     if (file) {
       setSelectedFile(file);
   
-      const formData = new FormData();
-      formData.append('file', file);
+      const formDataUpload = new FormData();
+      formDataUpload.append('file', file);
   
       try {
-        const response = await axios.post("http://localhost:3000/api/file/upload", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+        // Upload the file to backend (localhost:3000)
+        const response = await axios.post("http://localhost:3000/api/file/upload", formDataUpload, {
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
-        console.log('File uploaded successfully:', response.data);
-        
-        
+  
+        const uploadedUrl = response.data.fileUrl;
+        console.log('File uploaded:', uploadedUrl);
+  
+        // Update formData with the uploaded file URL
+        const updatedForm = {
+          ...formData,
+          resumeUrl: uploadedUrl,
+        };
+        setFormData(updatedForm); // If needed in state later
+        setGeneratedResumeUrl(uploadedUrl); // Optional
+        console.log('Updated form data:', updatedForm);
+        const response2 = await axios.post('http://localhost:5000/generate_resume', updatedForm, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true, // only needed if you are using cookies/tokens
+        });
       } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error('Error uploading or processing file:', error);
       }
     }
   };
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

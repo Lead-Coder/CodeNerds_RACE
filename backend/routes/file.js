@@ -4,45 +4,39 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 
-// Get the directory name from the module URL (for ES modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-// Set the public folder for static access (main public folder)
-const uploadPath = path.join(__dirname, '../uploads'); // Upload files to the root `uploads` folder
+// 🟡 Point to the MAIN project's public/uploads folder (outside backend folder)
+const uploadPath = path.join(__dirname, '../../public/uploads');
 
-// Ensure the uploads directory exists
+// Make sure the folder exists
 if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true }); // Create the directory if it doesn't exist
+  fs.mkdirSync(uploadPath, { recursive: true });
 }
 
-// Multer configuration for handling file uploads
+// Multer setup (no random suffix, just original filename)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadPath); // Specify the folder where the file will be uploaded
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); // Retain the original filename (no random number)
+    const customName = 'resume.pdf';
+    cb(null, customName);
   }
 });
 
 const upload = multer({ storage });
 
-// Upload route for handling file upload and returning the file URL
+// Route to upload file and return its public URL
 router.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
-  // Create the URL for accessing the uploaded file
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-
-  // Respond with the file URL (to be used further in your backend)
+  // 🟢 This assumes your main public folder is served statically
+  const fileUrl = `/uploads/${req.file.filename}`;
   res.json({ fileUrl });
-});
-
-router.post('/process', (req, res) => {
-  
 });
 
 export default router;

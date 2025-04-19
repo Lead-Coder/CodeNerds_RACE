@@ -11,25 +11,35 @@ import os
 import ats_score
 import latex_creation
 
-# === Define directory paths ===
-INPUT_DIR = "input"
-JSON_DIR = "jsons"
-OUTPUT_DIR = "output"
-MODEL_PATH = "models\\skill2vec.model"
+# # === Define directory paths ===
+# PUBLIC_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "../public"))
 
-resume_file = os.path.join(INPUT_DIR, "resume.pdf")
-extra_info_file = os.path.join(INPUT_DIR, "extra_info.json")
+# INPUT_DIR = os.path.join(PUBLIC_FOLDER, "input")
+# print(INPUT_DIR)
+# JSON_DIR = os.path.join(PUBLIC_FOLDER, "jsons")
+# OUTPUT_DIR = os.path.join(PUBLIC_FOLDER, "output")
+# MODEL_PATH = os.path.join(PUBLIC_FOLDER, "models\\skill2vec.model")
 
-os.makedirs(JSON_DIR, exist_ok=True)
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+# resume_file = os.path.join(INPUT_DIR, "resume.pdf")
+# extra_info_file = os.path.join(INPUT_DIR, "extra_info.json")
 
-def parse_resume():
+# os.makedirs(JSON_DIR, exist_ok=True)
+# os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# global_VARS = {
+#     "PUBLIC_FOLDER": os.path.abspath(os.path.join(os.path.dirname(__file__), "../public")),
+#     "INPUT_DIR": os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../public")), "input"), 
+# }
+
+def parse_resume(resume_file, JSON_DIR):
     nlp = spacy.load("en_core_web_sm")
 
     def is_image(file_path):
+        print("[INFO] Checking if file is an image.")
         return file_path.lower().endswith(('.png', '.jpg', '.jpeg'))
 
     def clean_text(text):
+        print("[INFO] Cleaning text.")
         mailto_matches = [m.start() for m in re.finditer(r'mailto:.*', text)]
         text = text[:mailto_matches[0]] if mailto_matches else text
         return text
@@ -40,15 +50,26 @@ def parse_resume():
             image = Image.open(file_path)
             return pytesseract.image_to_string(image)
         else:
-            print("[INFO] Using Apache Tika for text-based file.")
-            raw = parser.from_file(file_path)
-            return clean_text(raw['content']) if raw['content'] else ""
+            try:
+
+                raw = parser.from_file(file_path)
+                content = raw.get('content', '')
+                if content:
+                    print("[✓] Tika successfully extracted content.")
+                    return clean_text(content)
+                else:
+                    print("[✗] Tika returned empty content.")
+                    return ""
+            except Exception as e:
+                print("[ERROR] Tika failed:", str(e))
+                return ""
 
     def extract_basic_info(text):
         doc = nlp(text)
         name = next((ent.text for ent in doc.ents if ent.label_ == "PERSON"), None)
         email = re.search(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,}\b", text)
         phone = re.search(r"(\+?\d{1,3})?[-.\s]?\(?\d{2,5}\)?[-.\s]?\d{3,4}[-.\s]?\d{4}", text)
+        print("[INFO] Extracted basic information.")
         return {
             "name": name,
             "email": email.group() if email else None,
@@ -67,7 +88,6 @@ def parse_resume():
         section_data = {}
         current_section = None
         buffer = []
-
         def get_closest_section(line):
             match = difflib.get_close_matches(line.lower(), known_sections, n=1, cutoff=0.6)
             return match[0] if match else None
@@ -87,6 +107,8 @@ def parse_resume():
         if current_section and buffer:
             section_data[current_section] = '\n'.join(buffer).strip()
 
+        print("[INFO] Extracted sections from resume.")
+
         return section_data
 
     def merge_into_schema(basic_info, section_data):
@@ -98,6 +120,7 @@ def parse_resume():
             "education": section_data.pop("education", None),
             "experience": section_data.pop("experience", None),
         }
+        print('[INFO] Merging basic info with section data.')
         base_schema.update(section_data)
         return base_schema
 
@@ -106,6 +129,7 @@ def parse_resume():
         basic_info = extract_basic_info(text)
         section_data = extract_sections(text)
         full_data = merge_into_schema(basic_info, section_data)
+        print("[INFO] Resume processing complete.")
 
         output_path = os.path.join(JSON_DIR, "resume.json")
         with open(output_path, "w") as f:
@@ -369,7 +393,17 @@ def get_cover_letter_tex(prompt: str) -> str:
 
 # === Main Flow ===
 def create_resume(resume_path, jd_path, extra_info_path):
-    parse_resume()
+    print("Parsing resume...")
+    PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
+    resume_path_ = PUBLIC_FOLDER + resume_path
+    INPUT_DIR = os.path.join(PUBLIC_FOLDER, "input")
+    JSON_DIR = os.path.join(PUBLIC_FOLDER, "jsons")
+    OUTPUT_DIR = os.path.join(PUBLIC_FOLDER, "output")
+    MODEL_PATH = "ml\\models\\skill2vec.model"
+    OUTPUT_DIR = os.path.join(PUBLIC_FOLDER, "output")
+    
+    print(resume_path_)
+    parse_resume(resume_path_, JSON_DIR)
     print("resume parsed")
     make_skill2vec_model()
     print("model trained")

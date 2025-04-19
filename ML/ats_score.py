@@ -11,9 +11,9 @@ def read_file(file):
     with open(file) as f:
         return "\n".join(i for i in f.readlines())
 
-resume_text = read_file(RESUME_FILE)
+# resume_text = read_file(RESUME_FILE)
 
-job_description = read_file(JD_FILE)
+# job_description = read_file(JD_FILE)
 
 
 

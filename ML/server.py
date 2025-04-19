@@ -3,30 +3,36 @@ import create_tailored_resume
 import os
 import ats_score
 import latex_creation
-INPUT_DIR = "input"
-JSON_DIR = "jsons"
-OUTPUT_DIR = "output"
-MODEL_PATH = "models\\skill2vec.model"
+from flask_cors import CORS
+
+PUBLIC_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "../public"))
+INPUT_DIR = os.path.join(PUBLIC_FOLDER, "input")
+JSON_DIR = os.path.join(PUBLIC_FOLDER, "jsons")
+OUTPUT_DIR = os.path.join(PUBLIC_FOLDER, "output")
+MODEL_PATH = os.path.join(PUBLIC_FOLDER, "models\\skill2vec.model")
 
 resume_file = os.path.join(INPUT_DIR, "resume.pdf")
 extra_info_file = os.path.join(INPUT_DIR, "extra_info.json")
-
 app = Flask(__name__)
+CORS(app, origins=["http://localhost:5173"], supports_credentials=True, methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type"])
 
-@app.route('/generate_resume', methods=['POST'])
+@app.route('/generate_resume', methods=['POST', 'OPTIONS'])
 def generate_resume():
+    if request.method == 'OPTIONS':
+        return '', 204
     content = request.json
     resume_path = content.get("resumeUrl")
     jd_path = content.get("jobDescription")
     company_name = content.get("companyName")
     extra_info_path = content.get("resumeText")
-
     if not resume_path or not jd_path:
         return jsonify({"error": "Missing resume_path or jd_path in request"}), 400
 
     try:
         # ats_score, ai_output  
-        data = generate_resume(resume_path, jd_path, extra_info_path)
+        print("resume_path", resume_path)
+        print("jd_path", jd_path)   
+        data = create_tailored_resume.create_resume(resume_path, jd_path, extra_info_path)
         return jsonify(data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -103,4 +109,8 @@ def generate_cover_letter():
 
 
 if __name__ == '__main__':
+<<<<<<< Updated upstream
     app.run(host='0.0.0.0', port=5000, debug=True)
+=======
+    app.run(port=5000, debug=True)
+>>>>>>> Stashed changes
