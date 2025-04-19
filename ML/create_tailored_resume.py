@@ -397,7 +397,13 @@ def get_cover_letter_tex(prompt: str) -> str:
 # latex_creation.generate_pdf(latex_path, global_VARS["OUTPUT_DIR"])
 
 # === Main Flow ===
+<<<<<<< Updated upstream
 def create_resume(resume_path, jd_path, extra_info):
+=======
+def create_resume(resume_path, jd_path, extra_info_path):
+    print(resume_path)
+    print("Parsing resume...")
+>>>>>>> Stashed changes
     PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
     # PUBLIC_FOLDER = "F:/CodeNerds_RACE/public"
     global_VARS["PUBLIC_FOLDER"] = PUBLIC_FOLDER
