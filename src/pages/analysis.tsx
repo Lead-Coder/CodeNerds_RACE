@@ -175,9 +175,8 @@ const ATSAnalysis: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
               <div className="flex items-center">
-                <h2 className="text-lg font-medium text-gray-900">{analysisData.jobTitle} at {analysisData.company}</h2>
                 <div className="ml-4 flex-shrink-0">
-                  <span className={`inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium ${getScoreColor(analysisData.score)} bg-gray-100`}>
+                  <span className={`inline-flex items-center px-1 py-0.5 rounded-full text-sm font-medium ${getScoreColor(analysisData.score)} bg-gray-100`}>
                     ATS Score: {analysisData.score}/100
                   </span>
                 </div>
@@ -393,7 +392,11 @@ const ATSAnalysis: React.FC = () => {
             <div>
               <div className="mb-6">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Learning Roadmaps</h3>
-                <p className="text-gray-600 mb-4">
+                 <Link
+                 to="/roadmap"
+                 className="mb-8 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-200">Get Roadmap
+                 </Link>
+                <p className="text-gray-600 my-4">
                   Below are recommended learning paths from <a href="https://roadmap.sh" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">roadmap.sh</a> to help you acquire the missing skills for this position.
                 </p>
               </div>
@@ -420,8 +423,7 @@ const ATSAnalysis: React.FC = () => {
                             href={`https://roadmap.sh${SKILL_ROADMAPS[skill.name as keyof typeof SKILL_ROADMAPS] || '/frontend'}`} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:underline"
-                          >
+                            className="text-sm text-blue-600 hover:underline">
                             View detailed guide on roadmap.sh
                           </a>
                         </div>

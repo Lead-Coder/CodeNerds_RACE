@@ -7,6 +7,7 @@ import Landing from './pages/landing'
 import Cover from './pages/coverletter'
 import Resume from './pages/resume'
 import Analysis from './pages/analysis'
+import Roadmap from './pages/roadmap'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/analysis" element={<Analysis />} />
         <Route path="/coverletter" element={<Cover />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/roadmap" element={<Roadmap />} />
       </Routes>
     </Router>
     </>
