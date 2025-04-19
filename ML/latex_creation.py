@@ -17,7 +17,7 @@ def render_with_tectonic(latex_code: str,
     try:
         result = subprocess.run(
             [
-                "C:\\Tectonic\\tectonic.exe", output_dir + "tex.tex",
+                "C:\\Tectonic\\tectonic.exe", output_dir + "\\tex.tex",
                 "--outdir", output_dir,
                 "--keep-logs",
                 "--keep-intermediates" if keep_tex else "--print"
