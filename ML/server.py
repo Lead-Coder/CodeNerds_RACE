@@ -109,16 +109,4 @@ def generate_cover_letter():
 
 
 if __name__ == '__main__':
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    app.run(host='0.0.0.0', port=5000, debug=True)
-=======
     app.run(port=5000, debug=True)
->>>>>>> Stashed changes
-=======
-    app.run(port=5000, debug=True)
->>>>>>> Stashed changes
-=======
-    app.run(port=5000, debug=True)
->>>>>>> Stashed changes
