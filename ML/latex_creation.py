@@ -7,7 +7,9 @@ def render_with_tectonic(latex_code: str,
                          output_dir: str = ".",
                          keep_tex: bool = False) -> str:
     fd, tex_path = tempfile.mkstemp(suffix=".tex", text=True)
+    
     os.close(fd)
+    
     with open(tex_path, "w", encoding="utf-8") as f:
         f.write(latex_code)
 
@@ -15,7 +17,7 @@ def render_with_tectonic(latex_code: str,
     try:
         result = subprocess.run(
             [
-                "C:\\Tectonic\\tectonic.exe", tex_path,
+                "C:\\Tectonic\\tectonic.exe", output_dir + "tex.tex",
                 "--outdir", output_dir,
                 "--keep-logs",
                 "--keep-intermediates" if keep_tex else "--print"
@@ -52,6 +54,7 @@ def read_file(file):
 
 def generate_pdf(latex_path, output_path):    
     latex_code = read_file(latex_path)
+    print(latex_code)
     out_pdf = render_with_tectonic(latex_code, output_path)
     print(f"Generated PDF: {out_pdf}")
     return out_pdf
@@ -59,64 +62,66 @@ def generate_pdf(latex_path, output_path):
 
 if __name__ == "__main__":
     # Example usage: you can also read raw LaTeX from a file or stdin
-    sample = r"""
-\documentclass{article}
-\usepackage{amsmath}
-\usepackage{graphicx}
+#     sample = r"""
+# \documentclass{article}
+# \usepackage{amsmath}
+# \usepackage{graphicx}
 
-\title{A Sample Document Rendered with Tectonic}
-\author{Shivsharan Sanjawad}
-\date{\today}
+# \title{A Sample Document Rendered with Tectonic}
+# \author{Shivsharan Sanjawad}
+# \date{\today}
 
-\begin{document}
+# \begin{document}
 
-\maketitle
+# \maketitle
 
-\section{Introduction}
-This is a sample document to test Tectonic rendering. It contains a variety of LaTeX elements such as sections, equations, tables, and images. You can use this document to test Tectonic’s ability to compile documents with complex structures.
+# \section{Introduction}
+# This is a sample document to test Tectonic rendering. It contains a variety of LaTeX elements such as sections, equations, tables, and images. You can use this document to test Tectonic’s ability to compile documents with complex structures.
 
-\section{Mathematics}
-This section contains an equation rendered with the \texttt{amsmath} package. Here’s the quadratic formula:
+# \section{Mathematics}
+# This section contains an equation rendered with the \texttt{amsmath} package. Here’s the quadratic formula:
 
-\begin{equation}
-x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
-\end{equation}
+# \begin{equation}
+# x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+# \end{equation}
 
-This equation is commonly used to solve quadratic equations of the form \(ax^2 + bx + c = 0\).
+# This equation is commonly used to solve quadratic equations of the form \(ax^2 + bx + c = 0\).
 
-\section{Tables}
-Now let’s look at a table. The table below is a simple example of how LaTeX can format data in tabular form.
+# \section{Tables}
+# Now let’s look at a table. The table below is a simple example of how LaTeX can format data in tabular form.
 
-\begin{table}[h]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Year} & \textbf{Product A} & \textbf{Product B} \\
-\hline
-2019 & 500 & 300 \\
-2020 & 600 & 400 \\
-2021 & 700 & 450 \\
-\hline
-\end{tabular}
-\caption{Sales data for Product A and Product B.}
-\end{table}
+# \begin{table}[h]
+# \centering
+# \begin{tabular}{|c|c|c|}
+# \hline
+# \textbf{Year} & \textbf{Product A} & \textbf{Product B} \\
+# \hline
+# 2019 & 500 & 300 \\
+# 2020 & 600 & 400 \\
+# 2021 & 700 & 450 \\
+# \hline
+# \end{tabular}
+# \caption{Sales data for Product A and Product B.}
+# \end{table}
 
-\section{Images}
-LaTeX allows you to include images in your document. The \texttt{graphicx} package is used for this purpose. Below is an example of including an image:
+# \section{Images}
+# LaTeX allows you to include images in your document. The \texttt{graphicx} package is used for this purpose. Below is an example of including an image:
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{example-image}
-\caption{Sample image included in the document.}
-\end{figure}
+# \begin{figure}[h]
+# \centering
+# \includegraphics[width=0.5\textwidth]{example-image}
+# \caption{Sample image included in the document.}
+# \end{figure}
 
-\section{Conclusion}
-This document demonstrated a few basic LaTeX features such as equations, tables, and images. Use this template as a starting point for your own LaTeX documents.
+# \section{Conclusion}
+# This document demonstrated a few basic LaTeX features such as equations, tables, and images. Use this template as a starting point for your own LaTeX documents.
 
-\end{document}
+# \end{document}
 
 
-"""
-    out_pdf = render_with_tectonic(sample, output_dir=".")
-    print(f"Generated PDF: {out_pdf}")
+# """
+    
+    print(generate_pdf("C:\GitHub\CodeNerds_RACE\public\output\\tex.tex", "C:\GitHub\CodeNerds_RACE\public\output\\"))
+    # out_pdf = render_with_tectonic("sample", output_dir=".")
+    # print(f"Generated PDF: {out_pdf}")
 

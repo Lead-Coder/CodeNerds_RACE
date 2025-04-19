@@ -34,6 +34,7 @@ def generate_resume():
         data = create_tailored_resume.create_resume(resume_path, jd_path, extra_info_path)
         return jsonify(data)
     except Exception as e:
+        print("Error in generate_resume:", str(e))
         return jsonify({"error": str(e)}), 500
 
 

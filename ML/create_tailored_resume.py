@@ -205,22 +205,37 @@ def generate_latex(template_path, resume_path, output_path):
     resume_text = ats_score.read_file(resume_path)
     template_text = ats_score.read_file(template_path)
     prompt = f"""
-You are an expert resume writer and LaTeX template integrator.
+You are an expert resume writer and LaTeX integrator.
 
-Using the information below:
-- Existing Resume Data (in plain text format): {json.dumps(resume_text)}
-- Template Information (in LaTeX format): {json.dumps(template_text)}
+You are provided with:
 
-1. Analyze the provided resume in plain text and extract key sections: Contact Information, Objective, Skills, Experience, Education, and any Additional Information.
-2. Fit the extracted sections into the corresponding parts of the provided LaTeX template.
-3. Ensure the LaTeX formatting is correct, including proper handling of bullet points, section titles, and paragraph formatting.
-4. Polish the content with action verbs, quantification tips, and industry-aligned phrasing to make it impactful, concise, and professional.
-5. Return ONLY the LaTeX code with the updated resume. No extra explanations or commentary.
-6. Avoid making any assumptions or adding content that is not implied by the provided data.
-7. Do not use emojis or any informal elements.
-8. Use standard LaTeX packages that are widely available and professional.
+Resume Data (in plain text format): {json.dumps(resume_text)}
 
-Let's begin.
+Resume Template (in LaTeX format): {json.dumps(template_text)}
+
+Your tasks:
+
+Do not modify the LaTeX template. The structure, packages, and layout must remain EXACTLY as provided.
+
+Extract the following sections from the plain text resume: Contact Information, Objective (if present), Skills, Experience, Education, Certifications, Achievements, and Additional Information.
+
+Fill ONLY the appropriate fields in the LaTeX template using the extracted content. Do not change the structure of the template in any way.
+
+Ensure correct LaTeX syntax: use proper environments, escape special characters, and maintain bullet points and formatting as in the template.
+
+Polish the wording using professional phrasing (action verbs, quantification, etc.), but DO NOT add any information that is not explicitly in the input resume.
+
+Output MUST be:
+
+In UTF-8 encoding
+
+In English only
+
+No emojis
+
+No extra commentary, explanations, or additional text — output ONLY the LaTeX code.
+
+Reminder: Do not invent or hallucinate data. If a section is missing from the resume, leave the corresponding part in the template unchanged.
 
 """
 
@@ -233,7 +248,7 @@ Let's begin.
 
 def generate_pdf(template_path, output_path):
 
-    latex_creation.generate_latex(template_path, os.path.join(global_VARS["OUTPUT_DIR"], "tex.txt"))
+    generate_latex(template_path,  os.path.join(global_VARS["OUTPUT_DIR"], 'resume.txt'), os.path.join(global_VARS["OUTPUT_DIR"], "tex.tex"))
 
     print("latex generateed")
 
@@ -241,7 +256,7 @@ def generate_pdf(template_path, output_path):
 
     print("pdf generateed")
 
-    return os.path.join(global_VARS["OUTPUT_DIR"], "tex.txt"), resume_path 
+    return os.path.join(global_VARS["OUTPUT_DIR"], "tex.tex"), resume_path 
     
 
 def create_txt_resume(prompt, output_path):
@@ -263,6 +278,8 @@ def tailor_resume():
     resume = load_json(os.path.join(global_VARS["JSON_DIR"], 'resume.json'))
     extra_info = global_VARS["extra_files_info"]
 
+    print(requirements, resume, extra_info)
+
     prompt = f"""
 You are an expert resume writer.
 
@@ -274,6 +291,13 @@ Using the information below:
 1. Tailor the resume exactly to the requirements.
 2. Polish the resume with action verbs, quantification tips, and industry-aligned phrasing.
 3. Make it highly impactful and clear.
+4. Ensure it is ATS-friendly (avoid columns, graphics, or tables).
+5. Use a clear and professional structure.
+6. Avoid making any assumptions or adding content that is not implied by the provided data.
+7. Do not use emojis or any informal elements.
+8. Use standard LaTeX packages that are widely available and professional.
+9. Generate the resume in utf-8 format.
+10. dONT MAKE up INFORMATION. the personal user information SHOULD BE THE SAME AS THE RESUME. 
 
 Return ONLY the final polished resume. No extra explanations.
 
@@ -283,40 +307,50 @@ Let's begin.
     resume_text_path = os.path.join(global_VARS["OUTPUT_DIR"], 'resume.txt')
     count = 0
 
-    while count < 5  and ats < 85:
-        create_txt_resume(prompt, resume_text_path)
-        ats, remarks = ats_score.get_ats_and_remarks()
-        prompt = f"""
-You are an expert resume writer and ATS optimization specialist.
+    # while count < 5  and ats < 85:
+    create_txt_resume(prompt, resume_text_path)
+    resume_text_data = ""
+    try:
+        with open(resume_text_path, 'r', encoding='utf-8') as f:
+            resume_text_data = f.read()
+    except UnicodeDecodeError:
+        with open(resume_text_path, 'r', encoding='cp1252') as f:
+            resume_text_data = f.read()
 
-Using the following information:
+    print(resume_text_data)
+    ats, remarks = ats_score.get_ats_and_remarks(resume_text_data, json.dumps(requirements))
 
-    Job Requirements: {json.dumps(requirements)}
+#         prompt = f"""
+# You are an expert resume writer and ATS optimization specialist.
 
-    Current Resume: {json.dumps(resume)}
+# Using the following information:
 
-    Additional Info: {extra_info}
+#     Job Requirements: {json.dumps(requirements)}
 
-    ATS Feedback: {remarks}
+#     Current Resume: {json.dumps(resume)}
 
-Your tasks:
+#     Additional Info: {extra_info}
 
-    Regenerate the resume to fix all issues noted in the ATS feedback (such as missing keywords, poor formatting, vague language, etc.).
+#     ATS Feedback: {remarks}
 
-    Ensure it still aligns perfectly with the job requirements.
+# Your tasks:
 
-    Use powerful action verbs, quantifiable results where applicable, and modern industry terminology.
+#     Regenerate the resume to fix all issues noted in the ATS feedback (such as missing keywords, poor formatting, vague language, etc.).
 
-    Keep the structure clear, professional, and ATS-friendly (avoid columns, graphics, or tables).
+#     Ensure it still aligns perfectly with the job requirements.
 
-    Return only the final improved resume text — no explanations or extra commentary.
+#     Use powerful action verbs, quantifiable results where applicable, and modern industry terminology.
 
-Make it polished, compelling, and fully optimized for both recruiters and applicant tracking systems.
+#     Keep the structure clear, professional, and ATS-friendly (avoid columns, graphics, or tables).
 
-"""
-        count += 1
+#     Return only the final improved resume text — no explanations or extra commentary.
 
-    template_path = "templates/template.txt"
+# Make it polished, compelling, and fully optimized for both recruiters and applicant tracking systems.
+
+# """
+#         count += 1
+
+    template_path = global_VARS["PUBLIC_FOLDER"] + "/templates/template.txt"
 
     tex_file_path, resume_path = generate_pdf(template_path, resume_text_path)
 
@@ -364,8 +398,8 @@ def get_cover_letter_tex(prompt: str) -> str:
 
 # === Main Flow ===
 def create_resume(resume_path, jd_path, extra_info):
-    # PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
-    PUBLIC_FOLDER = "F:/CodeNerds_RACE/public"
+    PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
+    # PUBLIC_FOLDER = "F:/CodeNerds_RACE/public"
     global_VARS["PUBLIC_FOLDER"] = PUBLIC_FOLDER
     global_VARS["INPUT_DIR"] = os.path.join(PUBLIC_FOLDER, "input")
     global_VARS["JSON_DIR"] = os.path.join(PUBLIC_FOLDER, "jsons")

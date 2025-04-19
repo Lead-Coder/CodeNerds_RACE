@@ -1,0 +1,59 @@
+```latex
+\documentclass[utf-8]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{fancyvrb}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{lsmodels}
+
+\newcommand{\myfont}{\rmfamily}
+
+\begin{document}
+
+\noindent
+Heet Shah  
+\texttt{heet.shah223@spit.ac.in} \\
+9594335899 \quad | \quad \texttt{Mumbai, India} \\
+B.Tech in Computer Engineering (2023-2027)  
+Sardar Patel Institute of Technology Mumbai  
+Minor in Banking Technology (CGPA: 8.9)
+
+\section{Professional Skills}
+
+\textbf{Programming Languages:} \texttt{Python, Java, C} \\
+\textbf{Databases:} MySQL, SQLite, PostgreSQL \\
+\textbf{Frameworks/Libraries:} Django, Flask, pandas, NumPy, Matplotlib, scikit-learn, HBase, Docker, API, TFS, Visual Studio, PyCharm, Git
+
+\section{Technical Projects}
+
+\textbf{MERN Stack Application Developer} \quad | \quad Served as a key contributor to developing a full-stack web application utilizing Python, Node.js, and MongoDB. Enhanced user experience through efficient data management and seamless integration of third-party services. (2023-Present)
+
+\textbf{Technical Paper Search Engine} \quad | \quad Developed a search engine optimized for technical documentation using Python and machine learning algorithms to improve search accuracy. (2022-2023)
+
+\textbf{Client-SERVER Chat Application} \quad | \quad Built a real-time chat application with WebSocket protocol, reducing response time by 30\% through efficient code optimization. (2022)
+
+\textbf{Stock Market Prediction System} \quad | \quad Implemented a machine learning model to predict stock prices with an accuracy of 85\%, providing actionable insights for investors. (2021-2022)
+
+\section{Professional Experience}
+
+\textbf{Software Development Intern} \quad | \quad Sardar Patel Institute of Technology Mumbai  
+Developed and maintained internal tools, contributing to over 15 tools used by the development team. Assisted in quality assurance processes, ensuring high-quality deliverables. (2023-Present)
+
+\textbf{IEEE Student Branch Member} \quad | \quad Led technical workshops on Python programming and machine learning, enhancing skills of 50+ participants. Organized a hackathon that received over 200 submissions. (2022-2023)
+
+\section{Volunteer Experience}
+
+\textbf{Python Bootcamp Organizer} \quad | \quad Conducted a week-long bootcamp for 100+ students, teaching Python basics and data analysis. (2023)
+
+\textbf{Event Coordinator} \quad | \quad Assisted in organizing a 3-day entrepreneurship summit with over 500 attendees, managing logistics and scheduling efficiently. (2023-2024)
+
+\section{Education}
+
+B.Tech in Computer Engineering (2023-2027)  
+Minor in Banking Technology (CGPA: 8.9)  
+Sardar Patel Institute of Technology Mumbai
+
+\end{document}
+```
