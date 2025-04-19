@@ -1,0 +1,33 @@
+MISSING VALUES:
+
+strict matching. no faking of skills ( change prompt)
+
+give suggestions
+get most imp missing skills for roadmap.sh 
+
+PROMPT FOR USER CORRECTIONS:
+
+ADD DOCX COMPATIBILITY
+
+
+
+
+
+VERSION CONTROL: VEDAANT
+
+SENTIMENT ANALYSZE:
+
+REDACTION:
+security purposes
+
+
+TEMPLATES
+
+ATTENTION CATCHING BONUD BOXES:
+
+
+    RAG:
+
+
+
+

@@ -8,7 +8,8 @@ import re
 import pandas as pd
 from gensim.models import Word2Vec
 import os
-import openai
+import ats_score
+import latex_creation
 
 # === Define directory paths ===
 INPUT_DIR = "input"
@@ -175,6 +176,16 @@ def compare_jd_resume():
     generate_requirements_json(job_description, resume_filename, output_filename)
 
 
+def generate_pdf(template_path, output_path):
+    latex_creation.generate_latex(template_path, output_path)
+
+    print("latex generateed")
+
+    latex_creation.generate_pdf(template_path, OUTPUT_DIR)
+
+    print("pdf generateed")
+
+
 def tailor_resume():
     def load_json(file_path):
         with open(file_path, 'r') as f:
@@ -200,17 +211,62 @@ Return ONLY the final polished resume. No extra explanations.
 
 Let's begin.
     """
+    ats = 0
+    output_path = os.path.join(OUTPUT_DIR, 'resume.txt')
 
+    while count < 5  and ats < 85:
+        create_txt_resume(prompt, output_path)
+        ats, remarks = ats_score.get_ats_and_remarks()
+        prompt = f"""
+You are an expert resume writer and ATS optimization specialist.
+
+Using the following information:
+
+    Job Requirements: {json.dumps(requirements)}
+
+    Current Resume: {json.dumps(resume)}
+
+    Additional Info: {json.dumps(extra_info)}
+
+    ATS Feedback: {remarks}
+
+Your tasks:
+
+    Regenerate the resume to fix all issues noted in the ATS feedback (such as missing keywords, poor formatting, vague language, etc.).
+
+    Ensure it still aligns perfectly with the job requirements.
+
+    Use powerful action verbs, quantifiable results where applicable, and modern industry terminology.
+
+    Keep the structure clear, professional, and ATS-friendly (avoid columns, graphics, or tables).
+
+    Return only the final improved resume text — no explanations or extra commentary.
+
+Make it polished, compelling, and fully optimized for both recruiters and applicant tracking systems.
+
+"""
+        count += 1
+
+    template_path = "templates/template.txt"
+
+    generate_pdf(template_path, output_path)
+
+    return ats, output_path
+
+
+def create_txt_resume(prompt, output_path):
     command = ["ollama", "run", "deepseek-r1:8b"]
     result = subprocess.run(command, input=prompt, capture_output=True, text=True)
     output = result.stdout.strip().replace("<think>", "").replace("</think>", "").strip()
 
-    output_path = os.path.join(OUTPUT_DIR, 'tailored_resume.txt')
     with open(output_path, 'w') as f:
         f.write(output)
     print(f"[✓] Tailored resume saved to {output_path}")
 
 
+# latex_path = "templates/template.txt"
+
+# latex_creation.generate_pdf(latex_path, OUTPUT_DIR)
 
 # === Main Flow ===
 parse_resume()
@@ -221,3 +277,5 @@ compare_jd_resume()
 print("jd parsed")
 tailor_resume()
 print("parsed tailored")
+
+
