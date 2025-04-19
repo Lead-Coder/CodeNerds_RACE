@@ -17,43 +17,56 @@ const ResumeBuilder: React.FC = () => {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
+      setSelectedFile(file); // only set file here
+    }
+  };
   
-      const formDataUpload = new FormData();
-      formDataUpload.append('file', file);
+  const Submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
   
-      try {
-        // Upload the file to backend (localhost:3000)
+    try {
+      let uploadedUrl = formData.resumeUrl;
+  
+      if (selectedFile) {
+        const formDataUpload = new FormData();
+        formDataUpload.append('file', selectedFile);
+  
         const response = await axios.post("http://localhost:3000/api/file/upload", formDataUpload, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
   
-        const uploadedUrl = response.data.fileUrl;
+        uploadedUrl = response.data.fileUrl;
         console.log('File uploaded:', uploadedUrl);
-  
-        // Update formData with the uploaded file URL
-        const updatedForm = {
-          ...formData,
-          resumeUrl: uploadedUrl,
-        };
-        setFormData(updatedForm); // If needed in state later
-        setGeneratedResumeUrl(uploadedUrl); // Optional
-        console.log('Updated form data:', updatedForm);
-        const response2 = await axios.post('http://localhost:5000/generate_resume', updatedForm, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true, // only needed if you are using cookies/tokens
-        });
-      } catch (error) {
-        console.error('Error uploading or processing file:', error);
       }
+  
+      const updatedForm = {
+        ...formData,
+        resumeUrl: uploadedUrl,
+      };
+  
+      setFormData(updatedForm);
+      setGeneratedResumeUrl(uploadedUrl);
+  
+      const response2 = await axios.post('http://localhost:5000/generate_resume', updatedForm, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+  
+      console.log('Resume generation response:', response2.data);
+      setGeneratedResumeUrl(response2.data.generatedUrl || uploadedUrl); // adjust this if your backend sends a different URL
+      setSuccess(true);
+    } catch (error) {
+      console.error('Error uploading or processing file:', error);
+    } finally {
+      setLoading(false);
     }
   };
-  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -236,6 +249,7 @@ const ResumeBuilder: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
+                onClick={Submit}
                 className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}>
                 {loading ? (
                   <div className="flex items-center">
