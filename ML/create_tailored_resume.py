@@ -475,6 +475,9 @@ def create_resume(resume_path, jd, extra_info):
 =======
     global_VARS["jd_path"] = PUBLIC_FOLDER + jd_path
 >>>>>>> Stashed changes
+=======
+    global_VARS["jd_path"] = PUBLIC_FOLDER + jd_path
+>>>>>>> Stashed changes
     global_VARS["extra_files_info"] = extra_info
     global_VARS["Resume_file"] = resume_path_
 
