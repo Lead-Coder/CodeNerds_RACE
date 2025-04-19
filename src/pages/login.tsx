@@ -1,15 +1,23 @@
+import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+  const handleSubmit = async (e:any) => {
+    e.preventDefault(); 
+    try{
+      const result = await axios.post("http://localhost:3000/api/auth/login", {
+        email,
+        password});
+      console.log(result.data);
+    }
+    catch (error) {
+      console.error("Error logging in:", error);
+    }
   };
 
   return (
@@ -34,12 +42,12 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
-              <input id="email" type="email" required placeholder="you@example.com" className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" />
+              <input id="email" type="email" required placeholder="you@example.com" className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" onChange={(e) => {setEmail(e.target.value)}}/>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
-              <input id="password" type="password" required className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" />
+              <input id="password" type="password" required className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" onChange={(e) => {setPassword(e.target.value)}}/>
             </div>
 
             <div className="flex items-center justify-between">

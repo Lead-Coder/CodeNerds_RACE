@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState(""); 
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (e:any) => {
+    e.preventDefault(); 
+    const result = await axios.post("http://localhost:3000/api/auth/signup", {
+      username, 
+      email,
+      password,})
+    console.log(result.data);
   };
 
   return (
@@ -34,17 +39,17 @@ const Signup = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="username" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Username</label>
-                <input id="username" type="text" required placeholder="Enter your name" className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" />
+                <input id="username" type="text" required placeholder="Enter your name" className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" onChange={(e) => {setUsername(e.target.value)}} />
               </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
-              <input id="email" type="email" required placeholder="name@example.com" className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" />
+              <input id="email" type="email" required placeholder="name@example.com" className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" onChange={(e) => {setEmail(e.target.value)}} />
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
-              <input id="password" type="password" required className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white" />
+              <input id="password" type="password" required className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white"  onChange={(e) => {setPassword(e.target.value)}}/>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Must be at least 8 characters with a number and a special character
               </p>

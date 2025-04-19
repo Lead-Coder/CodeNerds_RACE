@@ -1,6 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import User from "../models/user.js";
 
 const router = express.Router();
 
@@ -24,7 +25,11 @@ router.post("/signup", async (req, res) => {
   
       const hashedPassword = await bcrypt.hash(password, 10);
       console.log("Password hashed successfully");
-  
+
+      const newUser = new User({ username, email, password: hashedPassword });
+      await newUser.save();
+      console.log("User saved to database:", newUser._id);
+      
       // Ensure JWT secret exists
       if (!process.env.JWT_SECRET) {
         console.error("JWT_SECRET is missing from .env file");
