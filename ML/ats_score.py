@@ -59,7 +59,7 @@ def query_deepseek(prompt: str) -> str:
 # --- Main Execution ---
 # if __name__ == "__main__":
 # 1. Compute and display ATS score
-def get_ats_and_remarks(resume="public/output/resume.txt", job_description=create_tailored_resume.global_VARS["jd_path"]):
+def get_ats_and_remarks(resume="public/output/resume.txt", job_description="public/upload/job_description.txt"):
     job_description_text = read_file(job_description)
     resume_text = read_file(resume)
     ats_score = compute_ats_score(job_description, resume_text)

@@ -51,7 +51,7 @@ const ResumeBuilder: React.FC = () => {
       setFormData(updatedForm);
       setGeneratedResumeUrl(uploadedUrl);
   
-      const response2 = await axios.post('http://localhost:5000/generate_resume', updatedForm, {
+      const response2 = await axios.post('http://localhost:5000/generate-resume', updatedForm, {
         headers: {
           'Content-Type': 'application/json',
         },
