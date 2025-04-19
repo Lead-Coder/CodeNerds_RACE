@@ -261,7 +261,7 @@ def tailor_resume():
 
     requirements = load_json(os.path.join(global_VARS["JSON_DIR"], 'requirements.json'))
     resume = load_json(os.path.join(global_VARS["JSON_DIR"], 'resume.json'))
-    extra_info = load_json(global_VARS["extra_files_info"])
+    extra_info = global_VARS["extra_files_info"]
 
     prompt = f"""
 You are an expert resume writer.
@@ -269,7 +269,7 @@ You are an expert resume writer.
 Using the information below:
 - Personal Information and Job Requirements: {json.dumps(requirements)}
 - Existing Resume Data: {json.dumps(resume)}
-- Extra Information: {json.dumps(extra_info)}
+- Extra Information: {extra_info}
 
 1. Tailor the resume exactly to the requirements.
 2. Polish the resume with action verbs, quantification tips, and industry-aligned phrasing.
@@ -295,7 +295,7 @@ Using the following information:
 
     Current Resume: {json.dumps(resume)}
 
-    Additional Info: {json.dumps(extra_info)}
+    Additional Info: {extra_info}
 
     ATS Feedback: {remarks}
 
@@ -363,8 +363,7 @@ def get_cover_letter_tex(prompt: str) -> str:
 # latex_creation.generate_pdf(latex_path, global_VARS["OUTPUT_DIR"])
 
 # === Main Flow ===
-def create_resume(resume_path, jd_path, extra_info_path):
-    print("Parsing resume...")
+def create_resume(resume_path, jd_path, extra_info):
     # PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
     PUBLIC_FOLDER = "F:/CodeNerds_RACE/public"
     global_VARS["PUBLIC_FOLDER"] = PUBLIC_FOLDER
@@ -375,9 +374,11 @@ def create_resume(resume_path, jd_path, extra_info_path):
     os.makedirs(global_VARS["JSON_DIR"], exist_ok=True)
     global_VARS["MODEL_PATH"] = "ML\\models\\skill2vec.model"
     resume_path_ = PUBLIC_FOLDER + resume_path
-    global_VARS["extra_files_info"] = PUBLIC_FOLDER + extra_info_path
+    global_VARS["extra_files_info"] = extra_info
     global_VARS["Resume_file"] = resume_path_
 
+    print("Parsing resume...")
+    print(global_VARS)
     print(resume_path_)
     parse_resume(resume_path_)
     print("resume parsed")
