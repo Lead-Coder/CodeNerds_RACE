@@ -14,7 +14,7 @@ const ResumeBuilder: React.FC = () => {
     resumeText: '',
   });
   const [generatedResumeUrl, setGeneratedResumeUrl] = useState('');
-
+  const [generatedLatexUrl , setGeneratedLatexUrl] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +59,8 @@ const ResumeBuilder: React.FC = () => {
       });
   
       console.log('Resume generation response:', response2.data);
-      setGeneratedResumeUrl(response2.data.generatedUrl || uploadedUrl); // adjust this if your backend sends a different URL
+      setGeneratedResumeUrl(response2.data.resumeUrl || uploadedUrl); // adjust this if your backend sends a different URL
+      setGeneratedLatexUrl(response2.data.latexUrl);
       setSuccess(true);
     } catch (error) {
       console.error('Error uploading or processing file:', error);
@@ -262,7 +263,7 @@ const ResumeBuilder: React.FC = () => {
                 </a>
                 
                 <a 
-                  href={generatedResumeUrl.replace('.pdf', '.tex')} 
+                  href={generatedLatexUrl} 
                   download
                   className="inline-flex items-center px-4 py-2 border border-blue-600 text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
