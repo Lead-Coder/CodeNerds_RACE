@@ -1,0 +1,6 @@
+tika
+spacy
+PIL
+pytesseract
+
+python -m spacy download en_core_web_sm
