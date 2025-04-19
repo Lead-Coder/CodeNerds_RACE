@@ -244,6 +244,15 @@ def generate_pdf(template_path, output_path):
     return os.path.join(global_VARS["OUTPUT_DIR"], "tex.txt"), resume_path 
     
 
+def create_txt_resume(prompt, output_path):
+    output = ats_score.query_deepseek(prompt)
+
+
+    with open(output_path, 'w') as f:
+        f.write(output)
+    print(f"[✓] Tailored resume saved to {output_path}")
+
+
 
 def tailor_resume():
     def load_json(file_path):
@@ -312,15 +321,6 @@ Make it polished, compelling, and fully optimized for both recruiters and applic
     tex_file_path, resume_path = generate_pdf(template_path, resume_text_path)
 
     return tex_file_path, resume_path  
-
-
-def create_txt_resume(prompt, output_path):
-    output = ats_score.query_deepseek(prompt)
-
-
-    with open(output_path, 'w') as f:
-        f.write(output)
-    print(f"[✓] Tailored resume saved to {output_path}")
 
 
 
