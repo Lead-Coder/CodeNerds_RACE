@@ -162,5 +162,5 @@ def process_resume(file_path):
 
 # === Example usage ===
 
-FILE = "resume.pdf"
+FILE = "ML/resume.pdf"
 process_resume(FILE)
