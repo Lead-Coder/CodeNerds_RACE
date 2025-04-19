@@ -59,7 +59,7 @@ const ResumeBuilder: React.FC = () => {
       });
   
       console.log('Resume generation response:', response2.data);
-      setGeneratedResumeUrl(response2.data.resumeUrl || uploadedUrl); // adjust this if your backend sends a different URL
+      setGeneratedResumeUrl(response2.data.resumeUrl); // adjust this if your backend sends a different URL
       setGeneratedLatexUrl(response2.data.latexUrl);
       setSuccess(true);
     } catch (error) {

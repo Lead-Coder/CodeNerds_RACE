@@ -17,7 +17,7 @@ def render_with_tectonic(latex_code: str,
     try:
         result = subprocess.run(
             [
-                "C:\\Tectonic\\tectonic.exe", output_dir + "tex.tex",
+                "C:\\Tectonic\\tectonic.exe", output_dir + "\\tex.tex",
                 "--outdir", output_dir,
                 "--keep-logs",
                 "--keep-intermediates" if keep_tex else "--print"
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
 # """
     
-    print(generate_pdf("C:\GitHub\CodeNerds_RACE\public\output\\tex.tex", "C:\GitHub\CodeNerds_RACE\public\output\\"))
+    print(generate_pdf(r"C:\GitHub\CodeNerds_RACE\public\output\\tex.tex", r"C:\GitHub\CodeNerds_RACE\public\output\\"))
     # out_pdf = render_with_tectonic("sample", output_dir=".")
     # print(f"Generated PDF: {out_pdf}")
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import DashboardLayout from "../components/Layout";
+import axios from 'axios';
 
 // Mock data for demonstration
 const MOCK_RESUME_ANALYSIS = {
@@ -57,12 +58,7 @@ const ATSAnalysis: React.FC = () => {
     // Mock API call
     const fetchAnalysis = async () => {
       try {
-        // In a real app, you would get the resume ID from the URL params or state
-        // const resumeId = new URLSearchParams(location.search).get('id');
-        // const response = await fetch(`/api/analysis/${resumeId}`);
-        // const data = await response.json();
-        
-        // Using mock data for demonstration
+        // const result = await axios.post("https://localhost:5000/", {})
         setTimeout(() => {
           setAnalysisData(MOCK_RESUME_ANALYSIS);
           setLoading(false);
