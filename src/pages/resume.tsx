@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from "../components/Layout";
+import axios from 'axios';
 
 const ResumeBuilder: React.FC = () => {
   const navigate = useNavigate();
@@ -9,18 +10,35 @@ const ResumeBuilder: React.FC = () => {
   const [formData, setFormData] = useState({
     companyName: '',
     jobDescription: '',
+    resumeUrl:'',
     resumeText: '',
   });
   const [generatedResumeUrl, setGeneratedResumeUrl] = useState('');
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedFile(file);
+  
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      try {
+        const response = await axios.post("http://localhost:3000/api/file/upload", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('File uploaded successfully:', response.data);
+        
+        
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
     }
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -65,6 +83,7 @@ const ResumeBuilder: React.FC = () => {
       companyName: '',
       jobDescription: '',
       resumeText: '',
+      resumeUrl: '',
     });
     setSuccess(false);
     setGeneratedResumeUrl('');
