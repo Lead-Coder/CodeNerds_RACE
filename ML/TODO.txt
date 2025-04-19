@@ -31,3 +31,37 @@ ATTENTION CATCHING BONUD BOXES:
 
 
 
+ML
+
+input
+oupt
+
+json
+templates
+tex 
+
+
+
+
+
+
+
+now i have resume and job description.
+i 
+
+You are an expert resume writer and LaTeX template integrator.
+
+Using the information below:
+- Existing Resume Data (in plain text format): {json.dumps(resume_text)}
+- Template information (in tex format ): {json.dumps(template_text)}
+
+1. Analyze the provided resume in plain text and extract key sections: Contact Information, Objective, Skills, Experience, Education, and any Additional Information.
+2. Fit the extracted sections into the corresponding parts of the provided LaTeX template.
+3. Ensure the formatting in the LaTeX code is correct, including bullet points, section titles, and paragraph formatting.
+4. Polish the content with action verbs, quantification tips, and industry-aligned phrasing to make it impactful and clear.
+5. Return ONLY the LaTeX code with the updated resume. No extra explanations.
+6. Don't fake things if they are not implied. 
+7. No use of emojis.
+8. Use the latex packages which are generally available and professinal. 
+
+Let's begin.
