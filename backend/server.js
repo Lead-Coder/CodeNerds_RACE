@@ -5,6 +5,7 @@ import {spawn} from "child_process";
 import mongoose from "mongoose";
 import auth from "./routes/auth.js";
 import file from "./routes/file.js"; 
+import Latex from "./routes/savelatex.js"; 
 
 dotenv.config();
 
@@ -89,6 +90,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Use Routes
 app.use('/api/auth', auth);
 app.use('/api/file', file);  // Add the file upload route
+app.use('/api/latex', Latex);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

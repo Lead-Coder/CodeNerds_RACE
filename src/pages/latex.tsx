@@ -23,6 +23,55 @@ export default function LaTeXEditor() {
       });
   }, []);
 
+  // Add version tracking state
+const [currentVersion, setCurrentVersion] = useState<number | null>(null);
+
+// Update handleSave to store returned version
+const handleSave = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/latex/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: latexCode }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      setCurrentVersion(data.version);
+      alert(`Saved version ${data.version}`);
+    } else {
+      alert('Failed to save.');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Error saving version');
+  }
+};
+
+// New: Load previous version
+const handleGoBack = async () => {
+  if (!currentVersion) {
+    alert("No current version loaded yet.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:3000/api/latex/previous/${currentVersion}`);
+    const data = await response.json();
+
+    if (data.success) {
+      setLatexCode(data.code);
+      setCurrentVersion(data.version);
+    } else {
+      alert(data.message || "No previous version found.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load previous version.");
+  }
+};
+
+
   const handleChatSubmit = (e: any) => {
     e.preventDefault();
     if (!chatMessage.trim()) return;
@@ -53,13 +102,17 @@ export default function LaTeXEditor() {
               <div className="flex items-center justify-between">
                 <div className="text-sm font-medium text-gray-700">Editor</div>
                 <div className="flex space-x-2">
-                  <button className="px-3 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded hover:bg-blue-100 transition-colors">
-                    Save
-                  </button>
+                 <button
+                  className="px-3 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded hover:bg-blue-100 transition-colors"
+                  onClick={handleSave}>
+                  Save
+                </button>
                   <button className="px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors">
                     Check for error
                   </button>
-                  <button className="px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors">
+                  <button
+                    className="px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors"
+                    onClick={handleGoBack}>
                     Go back
                   </button>
                 </div>
