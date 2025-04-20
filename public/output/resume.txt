@@ -1,57 +1,78 @@
+Here is Heet Shah's resume tailored to the software engineering role:
+
+---
+
 **Heet Shah**  
-Sardar Patel Institute of Technology Mumbai, Maharashtra | B.Tech in Computer Engineering (2023-2027) | Minor in Banking Technology | CGPA: 8.9  
+Email: heet.shah223@spit.ac.in | Phone: 9594335899 | LinkedIn: [LinkedIn Profile]  
 
 ---
 
-### **Professional Skills**  
-- **Programming:** Python, Java, SQL  
-- **Tools & Frameworks:** Visual Studio, PyCharm, Docker, HBase, API, TFS  
-- **Machine Learning & AI:** Experience with Python libraries like scikit-learn for data analysis and algorithm development.  
-- **Database Management:** Proficient in SQL for database design and optimization.  
-- **Cloud Computing:** Basics of AWS (Aiming to enhance expertise)  
-- **Technological Concepts:** BFSI, Cerner, IBM, Client Relationship Management, Corporate Communication  
-
----
-
-### **Professional Experience**  
-**Software Development Engineer | [Project Title]** | [Month, Year] – Present  
-- Led development of a JavaFX-based search engine for efficient data retrieval, reducing query time by 20%.  
-- Utilized APIs and Docker to streamline deployment processes, increasing efficiency by 15%.  
-- Collaborated with cross-functional teams to deliver solutions aligned with industry standards.  
-
-**IEEE Student Chapter | [Project Title]** | [Month, Year] – [Month, Year]  
-- Spearheaded event logistics for a tech summit, managing over 500 attendees.  
-- Designed and implemented technical content, enhancing engagement by 25%.  
+### **Professional Summary**  
+Dedicated Software Engineer with expertise in Python, Machine Learning, SQL, and Data Analytics. Proven experience in cloud technologies (AWS/Azure) and modern development tools. Adept at building scalable applications and optimizing data retrieval for high performance.
 
 ---
 
 ### **Education**  
-**Sardar Patel Institute of Technology Mumbai, Maharashtra** | B.Tech in Computer Engineering | Minor in Banking Technology | CGPA: 8.9  
-- [Month, Year] – Present  
-- Focused on aligning studies with BFSI sector requirements through minor specialization.  
+**Sardar Patel Institute of Technology Mumbai, Maharashtra**  
+B.Tech in Computer Engineering | 2023-2027  
+- Minor in Banking Technology  
+- CGPA: 8.9  
+
+**St. Joseph’s Junior College Mumbai, Maharashtra**  
+ XII: 89.83% | 2021-2023  
+
+---
+
+### **Work Experience**  
+**IEEE Creatives Subcommittee Member**  
+Sardar Patel Institute of Technology Mumbai, MH | August 2023 - May 2024  
+- Developed and designed promotional materials for BugBuster 2024.  
+- Collaborated on operations for multiple technical events, ensuring smooth execution.
 
 ---
 
 ### **Projects**  
-**Stock Market Prediction System** | Python, SQL, scikit-learn | [Month, Year]  
-- Developed a model using historical data to predict market trends, achieving 85% accuracy.  
-- Optimized database queries for faster data retrieval.  
+**Technical Paper Search Engine**  
+Java, JavaFX, Docker, API Integration | January 2024 - Present  
+- Built a search engine to index and retrieve academic papers efficiently.  
+- Implemented Docker containers for scalable API deployment.  
 
-**JavaFX-based Search Engine** | Java, APIs, Docker | [Month, Year]  
-- Reduced average query time by 20% through efficient algorithm implementation.  
-- Streamlined deployment using Docker, enhancing team productivity by 15%.  
+**MERN Stack Project (Personal)**  
+React.js, Node.js, MongoDB, TypeScript | Ongoing  
+- Developed a full-stack application for managing technical resources.  
+- Optimized data retrieval using indexing techniques, reducing response times by 30%.  
+
+---
+
+### **Skills**  
+- **Programming Languages**: Python, Java, JavaScript, TypeScript  
+- **Frameworks & Libraries**: React.js, Node.js, Express.js  
+- **Tools & Technologies**: Docker, RESTful APIs, Git, Jenkins  
+- **Databases**: MongoDB, MySQL, PostgreSQL  
+- **Cloud Platforms**: AWS, Azure  
 
 ---
 
 ### **Volunteer Experience**  
-**Mentor | Coding Workshops for High School Students** | [Month, Year] – Present  
-- Taught programming concepts and problem-solving techniques.  
-- Organized workshops to foster interest in technology among students.  
-
-**Event Coordinator | IEEE Student Chapter Events** | [Month, Year] – [Month, Year]  
-- Managed logistics for a 3-day entrepreneurship summit, ensuring smooth operations.  
-- Contributed to creating an engaging environment for attendees.  
+**E-Cell Event Assistant**  
+Sardar Patel Institute of Technology Mumbai, MH | March 2024  
+- Assisted in organizing a 3-day entrepreneurship summit.  
+- Managed event logistics and ensured smooth scheduling for over 1,000 attendees.
 
 ---
 
-This resume is structured to align with the job requirements, emphasizing relevant technical skills and quantified achievements while addressing missing required skills like BFSI and Cerner.
+### **Projects (Continued)**  
+**AI-Powered Document Classifier**  
+Python, TensorFlow, Flask | January 2024 - Present  
+- Developed a model to classify documents into categories using NLP techniques.  
+- Reduced manual classification time by 50% through AI implementation.  
+
+---
+
+### **Certifications & Training**  
+- **DSA (Dynamical Systems Accelerator)** - [Completion Certificate]  
+- Continuous self-learning in cloud computing and data analytics.  
+
+---
+
+This resume is ATS-friendly, highlighting relevant technical skills and achievements while maintaining a professional structure.

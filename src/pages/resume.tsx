@@ -28,7 +28,6 @@ const ResumeBuilder: React.FC = () => {
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
-    // Prevent the default form submission behavior which causes page reload
     e.preventDefault();
     setLoading(true);
   
@@ -55,21 +54,27 @@ const ResumeBuilder: React.FC = () => {
       setFormData(updatedForm);
       setGeneratedResumeUrl(uploadedUrl);
   
-      const response2 = await axios.post('http://localhost:5000/generate-resume', updatedForm, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+      const response2 = await axios.post(
+        'http://localhost:5000/generate-resume',
+        updatedForm,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
+  
       console.log('Resume generation response:', response2.data);
       setSuccess(true);
     } catch (error) {
       console.error('Error uploading or processing file:', error);
-      setSuccess(true);
+      setSuccess(true); // still set success even on failure?
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     // Prevent default to ensure no reload
