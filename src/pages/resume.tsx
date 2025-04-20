@@ -57,10 +57,7 @@ const ResumeBuilder: React.FC = () => {
         },
         withCredentials: true,
       });
-  
       console.log('Resume generation response:', response2.data);
-      setGeneratedResumeUrl(response2.data.resumeUrl); // adjust this if your backend sends a different URL
-      setGeneratedLatexUrl(response2.data.latexUrl);
       setSuccess(true);
     } catch (error) {
       console.error('Error uploading or processing file:', error);

@@ -254,12 +254,51 @@ def format_section(title, items):
     
     return '\n'.join(latex)
 
+
+def convert_resume_format(text):
+    # Convert markdown bold (e.g., **Header**) to UPPERCASE plain text
+    text = re.sub(r'\*\*(.*?)\*\*', lambda m: m.group(1).upper(), text)
+
+    # Replace em dashes with regular dashes
+    text = text.replace("�", "-")
+
+    # Remove markdown horizontal rules (---)
+    text = re.sub(r'\n-{3,}\n', '\n\n', text)
+
+    # Fix bullet points and spacing
+    text = re.sub(r'^\s*-\s*', '- ', text, flags=re.MULTILINE)
+    text = re.sub(r'^\s*\*\s*', '- ', text, flags=re.MULTILINE)
+
+    # Convert markdown headers (e.g., ###) to uppercase section titles
+    text = re.sub(r'^\s*#{1,6}\s*(.+)', lambda m: m.group(1).upper(), text, flags=re.MULTILINE)
+
+    # Clean up spacing
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    return text.strip()
+
+# Example usage
+# if __name__ == "__main__":
+#     with open("resume_input.txt", "r", encoding="utf-8") as f:
+#         resume_text = f.read()
+
+#     converted = convert_resume_format(resume_text)
+
+#     with open("resume_converted.txt", "w", encoding="utf-8") as f:
+#         f.write(converted)
+
+#     print("✅ Resume format converted and saved to 'resume_converted.txt'")
+
 def main():
+    print(sys.argv)
     if len(sys.argv) != 3:
         print("Usage: python resume2latex.py input.txt output.tex")
         sys.exit(1)
     
     try:
+        resume_text = convert_resume_format(sys.argv[1])
+        with open(sys.argv[1], "w", encoding="utf-8") as f:
+            f.write(resume_text)
+
         with open(sys.argv[1], 'r', encoding='utf-8', errors='replace') as f:
             resume_text = f.read()
         

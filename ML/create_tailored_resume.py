@@ -202,10 +202,10 @@ def compare_jd_resume():
 
 def generate_latex(template_path, resume_path, output_path):
 
-    resume_text = ats_score.read_file(resume_path)
-    template_text = ats_score.read_file(template_path)
+    # resume_text = ats_score.read_file(resume_path)
+    # template_text = ats_score.read_file(template_path)
 
-    subprocess.run(["tex_file_creator.py", "resume_path", output_path])
+    subprocess.run(["python", "tex_file_creater.py", resume_path, output_path])
 
     print(f"[✓] Tailored resume saved to {output_path}")
 
@@ -216,7 +216,7 @@ def generate_pdf(template_path, output_path):
 
     print("latex generateed")
 
-    resume_path = latex_creation.generate_pdf(template_path, global_VARS["OUTPUT_DIR"])
+    resume_path = latex_creation.generate_pdf_from_file(global_VARS["OUTPUT_DIR"] + "/tex.tex", global_VARS["OUTPUT_DIR"])
 
     print("pdf generateed")
 
@@ -259,8 +259,9 @@ Using the information below:
 5. Use a clear and professional structure.
 6. Avoid making any assumptions or adding content that is not implied by the provided data.
 7. Do not use emojis or any informal elements.
-8. Generate the resume in utf-8 format.
-9. dONT MAKE up INFORMATION. the personal user information SHOULD BE THE SAME AS THE RESUME. 
+8. If there are any emojis in the original document, remove them.
+9. Generate the resume in utf-8 format.
+10. dONT MAKE up INFORMATION. the personal user information SHOULD BE THE SAME AS THE RESUME. 
 
 Return ONLY the final polished resume. No extra explanations.
 
@@ -281,7 +282,7 @@ Let's begin.
             resume_text_data = f.read()
 
     print(resume_text_data)
-    remarks = ats_score.get_ats_and_remarks()
+    # remarks = ats_score.get_ats_and_remarks()
 
 #         prompt = f"""
 # You are an expert resume writer and ATS optimization specialist.
@@ -362,6 +363,7 @@ Requirements:
 - Limit the letter to 3-4 short, powerful paragraphs.
 - Avoid generic filler text or buzzwords.
 - Output only the final letter content — no comments, metadata, or extra formatting.
+- No Characters outside UTF-8 Encoding (Such as Emojis)
 
 Make the letter strong, personalized, and ready to be converted into LaTeX.
 """
@@ -384,6 +386,8 @@ Cover Letter:
 
     with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), "w", encoding="utf-8") as f:
         f.write(latex_code)
+    
+    latex_creation.generate_pdf_from_file(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), os.path.join(global_VARS["PUBLIC_FOLDER"], "output"))
 
 
 # === Main Flow ===
