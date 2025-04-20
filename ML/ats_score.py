@@ -61,31 +61,35 @@ def query_deepseek(prompt: str) -> str:
 # 1. Compute and display ATS score
 def get_ats_and_remarks():
     print(os.getcwd())
-    job_description = "public/upload/job_description.txt"
-    resume = "public/upload/resume.txt"
+    job_description = "../public/uploads/job_description.txt"
+    resume = "../public/output/resume.txt"
     job_description_text = read_file(job_description)
     resume_text = read_file(resume)
     ats_score = compute_ats_score(job_description, resume_text)
     print(f"1. Job Description Match Score: {ats_score}%\n")
 
+    
     # 2. Build prompt for deepseek analysis
     prompt = f"""
-    Resume Text:
-    {resume_text}
+Resume Text:
+{resume_text}
 
-    Job Description:
-    {job_description}
+Job Description:
+{job_description}
 
-    Provide your output in these sections:
-    
-    THE OUTPUT SHOULD BE LIKE 
-    all the informations are contained on seperate lines and should contain only the words or numbers nothing more
-    Keyword match score
-    skills match score
-    format score
-    3 matching skills
-    3 missing skills
-    """
+You are an automated resume evaluator.
+
+Provide your output in **exactly this format** — plain text only, no markdown, no extra comments, no explanation, no symbols:
+
+Line 1: Keyword match score (as a number only, e.g. 85)
+Line 2: Skills match score (number only)
+Line 3: Format score (number only)
+Line 4–6: 3 matching skills (one per line, only the skill name)
+Line 7–9: 3 missing skills (one per line, only the skill name)
+
+Do not include any labels, punctuation, explanations, or extra characters. Output exactly 9 lines in total.
+"""
+
 
     # 3. Query model and print result
     ai_output = query_deepseek(prompt).split("\n")
@@ -96,6 +100,6 @@ def get_ats_and_remarks():
     print("2. Analysis Result:\n")
     print(output)
 
-    return ats_score, output
+    return output
 
 

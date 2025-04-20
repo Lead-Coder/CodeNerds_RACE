@@ -44,9 +44,23 @@ def generate_resume():
 def get_ats_score_remarks():
     try:
         # tex_file_path, resume_path  
-        ats, remarks = ats_score.get_ats_and_remarks()
-        data = {i:x for i, x in enumerate(remarks)}
-        return jsonify(data)
+        remarks = ats_score.get_ats_and_remarks()
+        data = {
+            "a": remarks[0],
+            "b": remarks[1],
+            "c": remarks[2],
+        }
+        cleaned_data = []
+
+        for idx, group in enumerate(data):
+            if idx == 0:
+                # First array (scores): replace "" or None with "80"
+                cleaned_group = [item if item and item.strip() else "80" for item in group]
+            else:
+                # Second and third arrays (skills): remove "" or None
+                cleaned_group = [item for item in group if item and item.strip()]
+            cleaned_data.extend(cleaned_group)
+            return jsonify(data)
     except Exception as e:
         print("error", e)
         return jsonify({"error": str(e)}), 500
