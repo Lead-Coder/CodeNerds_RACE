@@ -506,7 +506,7 @@ def generate_cover_letter() -> str:
         resume_data = f.read()
 
     job_description_path = os.path.join(global_VARS["INPUT_DIR"], "job_description.txt")
-    with open(resume_path, "r", encoding="utf-8") as f:
+    with open(job_description_path, "r", encoding="utf-8") as f:
         job_description = f.read()
 
     prompt = f"""
@@ -536,10 +536,15 @@ Requirements:
 
 Make the letter strong, personalized, and ready to be converted into LaTeX.
 """
-
+    # Query AI and sanitize the result
     cover_text = ats_score.query_deepseek(prompt)
+    cover_text = cover_text.encode("utf-8", errors="ignore").decode("utf-8")
 
-    with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.txt"), "w", encoding="utf-8") as f:
+    output_dir = os.path.join(global_VARS["PUBLIC_FOLDER"], "output")
+    os.makedirs(output_dir, exist_ok=True)
+
+    cover_letter_txt = os.path.join(output_dir, "cover_letter.txt")
+    with open(cover_letter_txt, "w", encoding="utf-8") as f:
         f.write(cover_text)
 
     # Prompt to convert to LaTeX
@@ -552,11 +557,14 @@ Cover Letter:
 {cover_text}
 """
     latex_code = ats_score.query_deepseek(tex_prompt)
+    latex_code = latex_code.encode("utf-8", errors="ignore").decode("utf-8")
 
-    with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), "w", encoding="utf-8") as f:
+    cover_letter_tex = os.path.join(output_dir, "cover_letter.tex")
+    with open(cover_letter_tex, "w", encoding="utf-8") as f:
         f.write(latex_code)
-    
-    latex_creation.generate_pdf_from_file(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), os.path.join(global_VARS["PUBLIC_FOLDER"], "output"))
+
+    # Generate PDF
+    latex_creation.generate_pdf_from_file(cover_letter_tex, output_dir)
 
 
 # === Main Flow ===
