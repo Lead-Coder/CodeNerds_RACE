@@ -239,10 +239,11 @@ def query_deepseek(prompt: str) -> str:
     return output
 
 def create_improved_requirements(resume_json_str, requirements_json_str):
+    resume_data = json.loads(resume_json_str)
+    requirements_data = json.loads(requirements_json_str)
     try:
         # Parse JSON data
         resume_data = json.loads(resume_json_str)
-        requirements_data = json.loads(requirements_json_str)
         
         # Get job description
         job_description = requirements_data.get("job_description", "")
