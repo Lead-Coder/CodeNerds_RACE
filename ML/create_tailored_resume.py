@@ -485,7 +485,7 @@ def create_resume(resume_path, jd, extra_info):
     print("model trained")
     compare_jd_resume()
     print("jd parsed")
-    tailor_resume()
+    # tailor_resume()
     print("parsed tailored")
     generate_cover_letter()
     

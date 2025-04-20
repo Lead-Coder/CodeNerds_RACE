@@ -30,19 +30,9 @@ def generate_resume():
         return jsonify({"error": "Missing resume_path or jd_path in request"}), 400
 
     try:
-        # tex_file_path, resume_path  
-        # print("resume_path", resume_path)
-        # print("jd_path", jd_path)   
-        # data = create_tailored_resume.create_resume(resume_path, jd_path, extra_info_path)
-        matrix1 = np.array([1, 2, 0])
-        matrix2 = np.array(["asda", "asd", "as"])
-        matrix3 = np.array(["aa", "aaa", "asss"])
-
-        data = {
-            "matrix1": matrix1.tolist(),
-            "matrix2": matrix2.tolist(),
-            "matrix3": matrix3.tolist()
-        }
+        print("resume_path", resume_path)
+        print("jd_path", jd_path)   
+        data = create_tailored_resume.create_resume(resume_path, jd_path, extra_info_path)
 
         return jsonify(data)
     except Exception as e:

@@ -61,8 +61,8 @@ const ATSAnalysis: React.FC = () => {
         const result = await axios.post(
           "http://localhost:5000/ats_score_remarks",
           {
-            resumeUrl: "your_resume_url_here",
-            jobDescription: "your_job_description_here"
+            resumeUrl: "output/resume.txt",
+            jobDescription: "uploads/job_description.txt",
           },
           {
             headers: {
