@@ -295,9 +295,8 @@ Using the information below:
 5. Use a clear and professional structure.
 6. Avoid making any assumptions or adding content that is not implied by the provided data.
 7. Do not use emojis or any informal elements.
-8. Use standard LaTeX packages that are widely available and professional.
-9. Generate the resume in utf-8 format.
-10. dONT MAKE up INFORMATION. the personal user information SHOULD BE THE SAME AS THE RESUME. 
+8. Generate the resume in utf-8 format.
+9. dONT MAKE up INFORMATION. the personal user information SHOULD BE THE SAME AS THE RESUME. 
 
 Return ONLY the final polished resume. No extra explanations.
 
@@ -318,7 +317,7 @@ Let's begin.
             resume_text_data = f.read()
 
     print(resume_text_data)
-    ats, remarks = ats_score.get_ats_and_remarks()
+    remarks = ats_score.get_ats_and_remarks()
 
 #         prompt = f"""
 # You are an expert resume writer and ATS optimization specialist.
@@ -456,7 +455,6 @@ Cover Letter:
 # === Main Flow ===
 def create_resume(resume_path, jd, extra_info):
     print(resume_path)
-    print("Parsing resume...")
     PUBLIC_FOLDER = "C:/GitHub/CodeNerds_RACE/public"
     # PUBLIC_FOLDER = "F:/CodeNerds_RACE/public"
     global_VARS["PUBLIC_FOLDER"] = PUBLIC_FOLDER
@@ -465,10 +463,11 @@ def create_resume(resume_path, jd, extra_info):
     global_VARS["OUTPUT_DIR"] = os.path.join(PUBLIC_FOLDER, "output")
     os.makedirs(global_VARS["OUTPUT_DIR"], exist_ok=True)
     os.makedirs(global_VARS["JSON_DIR"], exist_ok=True)
-    global_VARS["MODEL_PATH"] = "ML\\models\\skill2vec.model"
+    global_VARS["MODEL_PATH"] = "models\\skill2vec.model"
     resume_path_ = PUBLIC_FOLDER + resume_path
-    global_VARS["jd_path"] = global_VARS + "\\upload\\jobDescription.txt"
-    with open(global_VARS["jd_path"]) as f:
+    global_VARS["jd_path"] = global_VARS["PUBLIC_FOLDER"] + "\\uploads\\job_description.txt"
+    with open(global_VARS["jd_path"], "w") as f:
+        print('hello')
         f.write(jd)
         
     global_VARS["jd_path"] = PUBLIC_FOLDER + jd
@@ -477,15 +476,13 @@ def create_resume(resume_path, jd, extra_info):
     global_VARS["Resume_file"] = resume_path_
 
     print("Parsing resume...")
-    print(global_VARS)
-    print(resume_path_)
     parse_resume(resume_path_)
     print("resume parsed")
     make_skill2vec_model()
     print("model trained")
     compare_jd_resume()
     print("jd parsed")
-    # tailor_resume()
+    tailor_resume()
     print("parsed tailored")
     generate_cover_letter()
     

@@ -1,1 +1,0 @@
-We are looking for a software engineer with experience in Python, machine learning, SQL, and data analytics. Familiarity with cloud technologies like AWS and Azure is a plus
