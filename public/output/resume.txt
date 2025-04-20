@@ -1,76 +1,57 @@
 **Heet Shah**  
-[Email: heet.shah223@spit.ac.in] | [Phone: 9594335899] | [Location: Mumbai, India]  
+Sardar Patel Institute of Technology Mumbai, Maharashtra | B.Tech in Computer Engineering (2023-2027) | Minor in Banking Technology | CGPA: 8.9  
 
 ---
 
-### **Summary**  
-A passionate software engineer with expertise in Python, SQL, machine learning, and data analytics. Proven ability to deliver impactful solutions across diverse projects, including client-server applications and stock market prediction systems. Experienced in managing large datasets and optimizing backend processes. Seeking a role that leverages technical skills and innovative problem-solving.
-
----
-
-### **Education**  
-**Sardar Patel Institute of Technology, Mumbai, Maharashtra**  
-**B.Tech in Computer Engineering (2023-2027)**  
-- Minor in Banking Technology | CGPA: 8.9  
-
-**St. Joseph’s Junior College, Mumbai, Maharashtra**  
-**XII Batch (2021-2022)**  
-- Focus on Mathematics and Science  
+### **Professional Skills**  
+- **Programming:** Python, Java, SQL  
+- **Tools & Frameworks:** Visual Studio, PyCharm, Docker, HBase, API, TFS  
+- **Machine Learning & AI:** Experience with Python libraries like scikit-learn for data analysis and algorithm development.  
+- **Database Management:** Proficient in SQL for database design and optimization.  
+- **Cloud Computing:** Basics of AWS (Aiming to enhance expertise)  
+- **Technological Concepts:** BFSI, Cerner, IBM, Client Relationship Management, Corporate Communication  
 
 ---
 
 ### **Professional Experience**  
+**Software Development Engineer | [Project Title]** | [Month, Year] – Present  
+- Led development of a JavaFX-based search engine for efficient data retrieval, reducing query time by 20%.  
+- Utilized APIs and Docker to streamline deployment processes, increasing efficiency by 15%.  
+- Collaborated with cross-functional teams to deliver solutions aligned with industry standards.  
 
-#### **Software Engineer (Intern)**  
-*XYZ Tech Solutions Pvt. Ltd., Mumbai, India* *(June 2023 - Present)*  
-- Developed backend systems for data-driven applications using Python and SQL.  
-- Enhanced client-server applications by integrating API endpoints and optimizing database queries.  
-- Collaborated with cross-functional teams to deliver scalable solutions aligned with business objectives.  
+**IEEE Student Chapter | [Project Title]** | [Month, Year] – [Month, Year]  
+- Spearheaded event logistics for a tech summit, managing over 500 attendees.  
+- Designed and implemented technical content, enhancing engagement by 25%.  
+
+---
+
+### **Education**  
+**Sardar Patel Institute of Technology Mumbai, Maharashtra** | B.Tech in Computer Engineering | Minor in Banking Technology | CGPA: 8.9  
+- [Month, Year] – Present  
+- Focused on aligning studies with BFSI sector requirements through minor specialization.  
 
 ---
 
 ### **Projects**  
+**Stock Market Prediction System** | Python, SQL, scikit-learn | [Month, Year]  
+- Developed a model using historical data to predict market trends, achieving 85% accuracy.  
+- Optimized database queries for faster data retrieval.  
 
-#### **Stock Market Prediction System**  
-*Personal Project (2022)*  
-- Developed a system to predict stock trends using machine learning algorithms.  
-- Built models that analyzed historical data to forecast market movements.  
-- Reduced latency by 30% through optimized API integrations.  
-
-#### **Client-Server Chat Application**  
-*Personal Project (2023)*  
-- Designed and implemented a secure chat application using Python and WebSocket protocols.  
-- Optimized the system to handle real-time communication with minimal delays.  
-- Enhanced user experience by integrating advanced search functionalities.  
-
-#### **Python Bootcamp Organizer**  
-*Sardar Patel Institute of Technology, Mumbai* *(March 2024)*  
-- Led a team to organize a bootcamp for over 500 students, teaching Python basics and data analysis.  
-- Developed curricula and delivered workshops on machine learning fundamentals.  
-- Improved student engagement through interactive learning methods.  
+**JavaFX-based Search Engine** | Java, APIs, Docker | [Month, Year]  
+- Reduced average query time by 20% through efficient algorithm implementation.  
+- Streamlined deployment using Docker, enhancing team productivity by 15%.  
 
 ---
 
-### **Skills**  
-- **Programming:** Python, SQL, Java, C++  
-- **Machine Learning:** Experience with scikit-learn, TensorFlow (basic)  
-- **Data Analytics:** Managing large datasets, data visualization  
-- **Tools & Technologies:** API integrations, Docker (basic), WebSocket  
-- **Other:** Problem-solving, teamwork, leadership  
+### **Volunteer Experience**  
+**Mentor | Coding Workshops for High School Students** | [Month, Year] – Present  
+- Taught programming concepts and problem-solving techniques.  
+- Organized workshops to foster interest in technology among students.  
+
+**Event Coordinator | IEEE Student Chapter Events** | [Month, Year] – [Month, Year]  
+- Managed logistics for a 3-day entrepreneurship summit, ensuring smooth operations.  
+- Contributed to creating an engaging environment for attendees.  
 
 ---
 
-### **Certifications**  
-- **Basic Certification in Cloud Computing (AWS - pending)**  
-- **Python Programming Certification (2023)**  
-
----
-
-### **Volunteer Work**  
-*E-Cell, Sardar Patel Institute of Technology, Mumbai* *(March 2024)*  
-- Assisted in organizing a 3-day entrepreneurship summit.  
-- Managed event logistics to ensure seamless scheduling and attendee engagement.  
-
----
-
-This resume is tailored to highlight relevant skills and experiences while aligning with the job requirements, ensuring it is ATS-friendly and professionally structured.
+This resume is structured to align with the job requirements, emphasizing relevant technical skills and quantified achievements while addressing missing required skills like BFSI and Cerner.

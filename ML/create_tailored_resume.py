@@ -561,7 +561,7 @@ Cover Letter:
     latex_code = ats_score.query_deepseek(tex_prompt)
     latex_code = latex_code.encode("utf-8", errors="ignore").decode("utf-8")
 
-    cover_letter_tex = os.path.join(output_dir, "cover_letter.tex")
+    cover_letter_tex = os.path.join(output_dir, "cover_letter_2.tex")
     with open(cover_letter_tex, "w", encoding="utf-8") as f:
         f.write(latex_code)
 
