@@ -149,6 +149,171 @@ def make_skill2vec_model():
     os.makedirs(os.path.dirname(global_VARS["OUTPUT_DIR"]), exist_ok=True)
     model.save(global_VARS["OUTPUT_DIR"])
 
+import json
+import re
+import subprocess
+
+def extract_skills_from_resume(resume_data):
+    """Extract skills from resume data"""
+    skills = []
+    if "skills" in resume_data:
+        # Extract all words and phrases from the skills section
+        skill_text = resume_data["skills"]
+        # Extract languages
+        languages = re.findall(r'Languages:\s*(.*?)(?:\n|$)', skill_text)
+        if languages:
+            for lang in languages[0].split(', '):
+                skills.append(lang.strip())
+        
+        # Extract frameworks
+        frameworks = re.findall(r'Frameworks:\s*(.*?)(?:\n|$)', skill_text)
+        if frameworks:
+            for framework in frameworks[0].split(', '):
+                skills.append(framework.strip())
+                
+        # Extract tools
+        tools = re.findall(r'Tools:\s*(.*?)(?:\n|$)', skill_text)
+        if tools:
+            for tool in tools[0].split(', '):
+                skills.append(tool.strip())
+                
+        # Extract libraries
+        libraries = re.findall(r'Libraries:\s*(.*?)(?:\n|$)', skill_text)
+        if libraries:
+            for library in libraries[0].split(', '):
+                skills.append(library.strip())
+    
+    # Extract skills from projects section
+    if "projects" in resume_data:
+        project_text = resume_data["projects"]
+        # Look for technologies mentioned after | or in bullet points
+        tech_mentions = re.findall(r'\|\s*(.*?)(?:\n|$)', project_text)
+        for tech in tech_mentions:
+            for t in tech.split(','):
+                skills.append(t.strip())
+    
+    return list(set(skills))
+
+def extract_job_skills(job_description):
+    """Extract key skills from job description"""
+    # Use regex or simple keyword detection
+    common_tech_skills = [
+        "Python", "Java", "SQL", "MySQL", "PostgreSQL", "SQLite", 
+        "Machine Learning", "Data Analytics", "Data Visualization",
+        "pandas", "NumPy", "Matplotlib", "Git", "API", "APIs",
+        "AWS", "Azure", "Cloud", "Docker", "Node.js", "Express",
+        "Database", "Backend", "Frontend", "Full Stack"
+    ]
+    
+    found_skills = []
+    for skill in common_tech_skills:
+        if skill.lower() in job_description.lower():
+            found_skills.append(skill)
+    
+    return found_skills
+
+def query_deepseek(prompt: str) -> str:
+    """
+    Query the local Ollama deepseek-r1:8b model via subprocess.
+    """
+    command = ["ollama", "run", "deepseek-r1:1.5b"]
+    result = subprocess.run(
+        command,
+        input=prompt.encode("utf-8"),
+        capture_output=True,
+        text=False  # important!
+    )
+    output = result.stdout.decode("utf-8", errors="replace")
+    flag = False
+    for i in output.splitlines():
+        if ((not flag) and i.startswith("<think>")):
+            output = output.replace(i, "")
+            flag = True
+        if(flag):
+            output = output.replace(i, "")
+        if(i.startswith("</think>") and flag):
+            output = output.replace(i, "")
+            flag = False
+    output = output.strip()
+    print(output)
+    return output
+
+def create_improved_requirements(resume_json_str, requirements_json_str):
+    try:
+        # Parse JSON data
+        resume_data = json.loads(resume_json_str)
+        requirements_data = json.loads(requirements_json_str)
+        
+        # Get job description
+        job_description = requirements_data.get("job_description", "")
+        
+        # Extract skills from resume
+        resume_skills = extract_skills_from_resume(resume_data)
+        
+        # Extract key skills from job description
+        job_skills = extract_job_skills(job_description)
+        
+        # Use AI to refine and enhance the list
+        prompt = f"""
+        Based on this job description: 
+        "{job_description}"
+        
+        And these skills from the resume:
+        {', '.join(resume_skills)}
+        
+        Generate a comprehensive and relevant list of:
+        1. Required skills for this job position (focus on the most important ones)
+        2. Skills that appear to be missing from the resume compared to job requirements
+
+        Return your answer as a JSON object with two arrays: "required_skills" and "missing_skills".
+        """
+        
+        # Query AI model
+        ai_response = query_deepseek(prompt)
+        
+        # Try to parse AI response as JSON
+        try:
+            ai_data = json.loads(ai_response)
+            required_skills = ai_data.get("required_skills", [])
+            missing_skills = ai_data.get("missing_skills", [])
+        except:
+            # If AI response isn't valid JSON, use our extracted data
+            required_skills = job_skills
+            missing_skills = [skill for skill in job_skills if skill not in resume_skills]
+        
+        # Create improved requirements
+        improved_requirements = {
+            "job_description": job_description,
+            "required_skills": required_skills,
+            "missing_skills": missing_skills
+        }
+        
+        return json.dumps(improved_requirements, indent=4)
+        
+    except Exception as e:
+        return json.dumps({
+            "job_description": requirements_data.get("job_description", ""),
+            "required_skills": [
+                "Python", "SQL", "Data Analytics", "Machine Learning",
+                "Data Visualization", "pandas", "NumPy", "Git", "Java"
+            ],
+            "missing_skills": [
+                "AWS", "Azure", "Cloud Technologies", "Docker"
+            ]
+        }, indent=4)
+
+
+def create_final_requirements(resume_json, requirements_json):
+
+# Print improved requirements
+    improved_requirements = create_improved_requirements(resume_json, requirements_json)
+    print(improved_requirements)
+
+    # Save to file
+    with open("requirements.json", "w") as f:
+        f.write(improved_requirements)
+
+
 
 def compare_jd_resume():
     model = Word2Vec.load(global_VARS["MODEL_PATH"])
@@ -197,7 +362,10 @@ def compare_jd_resume():
     resume_filename = os.path.join(global_VARS["JSON_DIR"], "resume.json")
     output_filename = os.path.join(global_VARS["JSON_DIR"], "requirements.json")
 
+
     generate_requirements_json(job_description, resume_filename, output_filename)
+
+    create_final_requirements(resume_filename, output_filename)
 
 
 def generate_latex(template_path, resume_path, output_path):
@@ -206,6 +374,7 @@ def generate_latex(template_path, resume_path, output_path):
     # template_text = ats_score.read_file(template_path)
 
     subprocess.run(["python", "tex_file_creater.py", resume_path, output_path])
+    subprocess.run(["tex_file_creater.py", "resume_path", output_path])
 
     print(f"[✓] Tailored resume saved to {output_path}")
 
@@ -337,7 +506,7 @@ def generate_cover_letter() -> str:
         resume_data = f.read()
 
     job_description_path = os.path.join(global_VARS["INPUT_DIR"], "job_description.txt")
-    with open(resume_path, "r", encoding="utf-8") as f:
+    with open(job_description_path, "r", encoding="utf-8") as f:
         job_description = f.read()
 
     prompt = f"""
@@ -367,10 +536,15 @@ Requirements:
 
 Make the letter strong, personalized, and ready to be converted into LaTeX.
 """
-
+    # Query AI and sanitize the result
     cover_text = ats_score.query_deepseek(prompt)
+    cover_text = cover_text.encode("utf-8", errors="ignore").decode("utf-8")
 
-    with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.txt"), "w", encoding="utf-8") as f:
+    output_dir = os.path.join(global_VARS["PUBLIC_FOLDER"], "output")
+    os.makedirs(output_dir, exist_ok=True)
+
+    cover_letter_txt = os.path.join(output_dir, "cover_letter.txt")
+    with open(cover_letter_txt, "w", encoding="utf-8") as f:
         f.write(cover_text)
 
     # Prompt to convert to LaTeX
@@ -383,11 +557,14 @@ Cover Letter:
 {cover_text}
 """
     latex_code = ats_score.query_deepseek(tex_prompt)
+    latex_code = latex_code.encode("utf-8", errors="ignore").decode("utf-8")
 
-    with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), "w", encoding="utf-8") as f:
+    cover_letter_tex = os.path.join(output_dir, "cover_letter.tex")
+    with open(cover_letter_tex, "w", encoding="utf-8") as f:
         f.write(latex_code)
-    
-    latex_creation.generate_pdf_from_file(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), os.path.join(global_VARS["PUBLIC_FOLDER"], "output"))
+
+    # Generate PDF
+    latex_creation.generate_pdf_from_file(cover_letter_tex, output_dir)
 
 
 # === Main Flow ===
