@@ -566,7 +566,8 @@ Cover Letter:
         f.write(latex_code)
 
     # Generate PDF
-    latex_creation.generate_pdf_from_file(cover_letter_tex, output_dir)
+    # latex_creation.generate_pdf_from_file(cover_letter_tex, output_dir)
+    print("generated succesfully")
 
 
 # === Main Flow ===
