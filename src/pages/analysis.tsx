@@ -129,8 +129,8 @@ const ATSAnalysis: React.FC = () => {
         const result = await axios.post(
           "http://localhost:5000/ats_score_remarks",
           {
-            resumeUrl: "your_resume_url_here",
-            jobDescription: "your_job_description_here"
+            resumeUrl: "output/resume.txt",
+            jobDescription: "uploads/job_description.txt",
           },
           {
             headers: {
@@ -335,15 +335,15 @@ const ATSAnalysis: React.FC = () => {
                   <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-white p-4 rounded border border-gray-200">
                       <div className="text-sm font-medium text-gray-500">Keyword Match</div>
-                      <div className="mt-1 text-2xl font-semibold">{data.matrix1[0]}%</div>
+                      <div className="mt-1 text-2xl font-semibold">{data.a[0]}%</div>
                     </div>
                     <div className="bg-white p-4 rounded border border-gray-200">
                       <div className="text-sm font-medium text-gray-500">Skills Match</div>
-                      <div className="mt-1 text-2xl font-semibold">{data.matrix1[1]}%</div>
+                      <div className="mt-1 text-2xl font-semibold">{data.a[1]}%</div>
                     </div>
                     <div className="bg-white p-4 rounded border border-gray-200">
                       <div className="text-sm font-medium text-gray-500">Format Score</div>
-                      <div className="mt-1 text-2xl font-semibold">{data.matrix1[2]}%</div>
+                      <div className="mt-1 text-2xl font-semibold">{data.a[2]}%</div>
                     </div>
                   </div>
                 </div>
@@ -356,7 +356,7 @@ const ATSAnalysis: React.FC = () => {
                     <div>
                       <h4 className="text-sm font-medium text-gray-500 mb-3">Matching Skills</h4>
                       <ul className="space-y-2">
-                      {data.matrix2.slice(0, 3).map((skill: string, index: number) => (
+                      {data.b.slice(0, 3).map((skill: string, index: number) => (
                         <li key={index} className="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-green-500 mr-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -369,7 +369,7 @@ const ATSAnalysis: React.FC = () => {
                     <div>
                       <h4 className="text-sm font-medium text-gray-500 mb-3">Missing Skills</h4>
                       <ul className="space-y-2">
-                      {data.matrix3.slice(0, 3).map((skill: string, index: number) => (
+                      {data.c.slice(0, 3).map((skill: string, index: number) => (
                         <li key={index} className="flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-red-500 mr-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />

@@ -2,7 +2,7 @@ import subprocess
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import create_tailored_resume
-
+import os
 # --- Hardcoded Inputs ---
 
 RESUME_FILE = "output/resume.txt"
@@ -59,42 +59,47 @@ def query_deepseek(prompt: str) -> str:
 # --- Main Execution ---
 # if __name__ == "__main__":
 # 1. Compute and display ATS score
-def get_ats_and_remarks(resume="public/output/resume.txt", job_description="public/upload/job_description.txt"):
+def get_ats_and_remarks():
+    print(os.getcwd())
+    job_description = "../public/uploads/job_description.txt"
+    resume = "../public/output/resume.txt"
     job_description_text = read_file(job_description)
     resume_text = read_file(resume)
     ats_score = compute_ats_score(job_description, resume_text)
     print(f"1. Job Description Match Score: {ats_score}%\n")
 
+    
     # 2. Build prompt for deepseek analysis
     prompt = f"""
-    Resume Text:
-    {resume_text}
+Resume Text:
+{resume_text}
 
-    Job Description:
-    {job_description}
+Job Description:
+{job_description}
 
-    Provide your output in these sections:
-    Keyword match score
-    skills match score
-    format score
-    3 matching skills
-    3 missing skills
+You are an automated resume evaluator.
 
-    Personalized 3 step roadmap for each missing skill
+Provide your output in **exactly this format** — plain text only, no markdown, no extra comments, no explanation, no symbols:
 
-    also give me their priority 
+Line 1: Keyword match score (as a number only, e.g. 85)
+Line 2: Skills match score (number only)
+Line 3: Format score (number only)
+Line 4–6: 3 matching skills (one per line, only the skill name)
+Line 7–9: 3 missing skills (one per line, only the skill name)
 
-    • Missing Keywords (list)
-    • Profile Summary (concise)
-    • Personalized Suggestions for skills, keywords, and achievements
-    • Application Success Rate (percentage)
-    """
+Do not include any labels, punctuation, explanations, or extra characters. Output exactly 9 lines in total.
+"""
+
 
     # 3. Query model and print result
-    ai_output = query_deepseek(prompt)
+    ai_output = query_deepseek(prompt).split("\n")
+    output = []
+    output.append(ai_output[:3])
+    output.append(ai_output[3:6])
+    output.append(ai_output[6:9])
     print("2. Analysis Result:\n")
-    print(ai_output)
+    print(output)
 
-    return ats_score, ai_output
+    return output
 
 

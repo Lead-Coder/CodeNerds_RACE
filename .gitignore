@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 .env
 /ML/__pycache__
+ML/__pycache__/create_tailored_resume.cpython-312.pyc

@@ -30,19 +30,9 @@ def generate_resume():
         return jsonify({"error": "Missing resume_path or jd_path in request"}), 400
 
     try:
-        # tex_file_path, resume_path  
-        # print("resume_path", resume_path)
-        # print("jd_path", jd_path)   
-        # data = create_tailored_resume.create_resume(resume_path, jd_path, extra_info_path)
-        matrix1 = np.array([1, 2, 0])
-        matrix2 = np.array(["asda", "asd", "as"])
-        matrix3 = np.array(["aa", "aaa", "asss"])
-
-        data = {
-            "matrix1": matrix1.tolist(),
-            "matrix2": matrix2.tolist(),
-            "matrix3": matrix3.tolist()
-        }
+        print("resume_path", resume_path)
+        print("jd_path", jd_path)   
+        data = create_tailored_resume.create_resume(resume_path, jd_path, extra_info_path)
 
         return jsonify(data)
     except Exception as e:
@@ -52,52 +42,36 @@ def generate_resume():
 
 @app.route('/ats_score_remarks', methods=['POST'])
 def get_ats_score_remarks():
-    content = request.json
-    resume_path = content.get("resumeUrl")
-    jd_path = content.get("jobDescription")
-
-    if not resume_path or not jd_path:
-        return jsonify({"error": "Missing resume_path or jd_path in request"}), 400
-
     try:
         # tex_file_path, resume_path  
-        matrix1 = np.array([1, 2, 0])
-        matrix2 = np.array(["asda", "asd", "as"])
-        matrix3 = np.array(["aa", "aaa", "asss"])
-
+        remarks = ats_score.get_ats_and_remarks()
         data = {
-            "matrix1": matrix1.tolist(),
-            "matrix2": matrix2.tolist(),
-            "matrix3": matrix3.tolist()
+            "a": remarks[0],
+            "b": remarks[1],
+            "c": remarks[2],
         }
-        # data = ats_score.get_ats_and_remarks(resume_path, jd_path)
-        # ats_score, ai_output  
-        data = ats_score.get_ats_and_remarks(resume_path, jd_path)
-        return jsonify(data)
+        cleaned_data = []
+
+        for idx, group in enumerate(data):
+            if idx == 0:
+                # First array (scores): replace "" or None with "80"
+                cleaned_group = [item if item and item.strip() else "80" for item in group]
+            else:
+                # Second and third arrays (skills): remove "" or None
+                cleaned_group = [item for item in group if item and item.strip()]
+            cleaned_data.extend(cleaned_group)
+            return jsonify(data)
     except Exception as e:
         print("error", e)
         return jsonify({"error": str(e)}), 500
 
 @app.route('/tex_to_pdf', methods=['POST'])
 def tex_to_pdf():
-    
-    content = request.json
-    resume_path = content.get("resumeTex")
-
-    if not resume_path:
-        return jsonify({"error": "Missing resume_path in request"}), 400
-
     try:
-        # tex_file_path, resume_path  
-        data = latex_creation.generate_pdf(resume_path, OUTPUT_DIR)
+        data = latex_creation.generate_pdf("../public/output/tex.tex", OUTPUT_DIR)
         return jsonify(data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-@app.route('/train_model', methods=['POST'])
-def train_model():
-    create_tailored_resume.make_skill2vec_model()
-    return jsonify({"message": "Skill2Vec model trained successfully."})
 
 @app.route('/compare_jd_resume', methods=['POST'])
 def compare_jd_resume():
@@ -112,21 +86,21 @@ def tailor_resume():
 @app.route('/generate_pdf', methods=['POST'])
 def generate_pdf():
     data = request.json
-    template = data.get("template", "templates/template.txt")
-    output = data.get("output", "output/tex.txt")
+    template = "../public/templates/template.txt"
+    output ="../public/outputs/tex.txt"
     create_tailored_resume.generate_pdf(template, output)
     return jsonify({"message": "PDF generated."})
 
-@app.route('/download_resume', methods=['GET'])
-def download_resume():
-    file_path = os.path.join("output", "resume.pdf")
-    if os.path.exists(file_path):
-        return send_file(file_path, as_attachment=True)
-    else:
-        return jsonify({"error": "File not found"}), 404
-
 @app.route('/generate_cover_letter', methods=['POST'])
 def generate_cover_letter():
+    if request.method == 'OPTIONS':
+        return '', 204
+    content = request.json
+    resume_path = content.get("resumeUrl")
+    jd_path = content.get("jobDescription")
+    company_name = content.get("companyName")
+    extra_info_path = content.get("resumeText")
+    create_tailored_resume.generate_cover_letter()
     with open("cover_letter.tex", "r") as f:
         latex = f.read()
     return jsonify({"latex": latex})
