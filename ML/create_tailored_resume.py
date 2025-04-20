@@ -204,45 +204,9 @@ def generate_latex(template_path, resume_path, output_path):
 
     resume_text = ats_score.read_file(resume_path)
     template_text = ats_score.read_file(template_path)
-    prompt = f"""
-You are an expert resume writer and LaTeX integrator.
 
-You are provided with:
+    subprocess.run(["tex_file_creator.py", "resume_path", output_path])
 
-Resume Data (in plain text format): {json.dumps(resume_text)}
-
-Resume Template (in LaTeX format): {json.dumps(template_text)}
-
-Your tasks:
-
-Do not modify the LaTeX template. The structure, packages, and layout must remain EXACTLY as provided.
-
-Extract the following sections from the plain text resume: Contact Information, Objective (if present), Skills, Experience, Education, Certifications, Achievements, and Additional Information.
-
-Fill ONLY the appropriate fields in the LaTeX template using the extracted content. Do not change the structure of the template in any way.
-
-Ensure correct LaTeX syntax: use proper environments, escape special characters, and maintain bullet points and formatting as in the template.
-
-Polish the wording using professional phrasing (action verbs, quantification, etc.), but DO NOT add any information that is not explicitly in the input resume.
-
-Output MUST be:
-
-In UTF-8 encoding
-
-In English only
-
-No emojis
-
-No extra commentary, explanations, or additional text — output ONLY the LaTeX code.
-
-Reminder: Do not invent or hallucinate data. If a section is missing from the resume, leave the corresponding part in the template unchanged.
-
-"""
-
-    output = ats_score.query_deepseek(prompt)
-
-    with open(output_path, 'w') as f:
-        f.write(output)
     print(f"[✓] Tailored resume saved to {output_path}")
 
 
@@ -355,8 +319,6 @@ Let's begin.
 
     return tex_file_path, resume_path  
 
-
-
 import subprocess
 
 def get_cover_letter_tex(prompt: str) -> str:
@@ -367,33 +329,6 @@ def get_cover_letter_tex(prompt: str) -> str:
 
     return output
 
-# # === Load the generated cover letter ===
-# with open("generated_cover_letter.txt", "r", encoding="utf-8") as f:
-#     cover_letter = f.read()
-
-# # === Prompt to convert cover letter to LaTeX ===
-# prompt = f"""
-# Convert the following professional cover letter into LaTeX code, suitable for a standalone document.
-# Use standard documentclass like `article` or `letter`, include proper formatting, date, sender and recipient sections, and use professional fonts.
-
-# Cover Letter:
-# \"\"\"
-# {cover_letter}
-# \"\"\"
-# """
-
-# # === Generate the LaTeX code ===
-# latex_code = get_cover_letter_tex(prompt)
-
-# # === Save LaTeX code to a file ===
-# with open("cover_letter.tex", "w", encoding="utf-8") as f:
-#     f.write(latex_code)
-
-
-
-# latex_path = "templates/template.txt"
-
-# latex_creation.generate_pdf(latex_path, global_VARS["OUTPUT_DIR"])
 
 def generate_cover_letter() -> str:
     resume_path = os.path.join(global_VARS["OUTPUT_DIR"], "resume.txt")
@@ -449,7 +384,6 @@ Cover Letter:
 
     with open(os.path.join(global_VARS["PUBLIC_FOLDER"], "output", "cover_letter.tex"), "w", encoding="utf-8") as f:
         f.write(latex_code)
-
 
 
 # === Main Flow ===
