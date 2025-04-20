@@ -59,12 +59,10 @@ def query_deepseek(prompt: str) -> str:
 # --- Main Execution ---
 # if __name__ == "__main__":
 # 1. Compute and display ATS score
-def get_ats_and_remarks(resume="public/output/resume.txt", job_description="public/upload/job_description.txt"):
+def get_ats_and_remarks():
     print(os.getcwd())
-    if job_description != "public/upload/job_description.txt":
-        job_description = ("../public/" + job_description)
-    if resume != "public/upload/resume.txt":
-        resume = ("../public/" + resume)
+    job_description = "public/upload/job_description.txt"
+    resume = "public/upload/resume.txt"
     job_description_text = read_file(job_description)
     resume_text = read_file(resume)
     ats_score = compute_ats_score(job_description, resume_text)
@@ -79,27 +77,25 @@ def get_ats_and_remarks(resume="public/output/resume.txt", job_description="publ
     {job_description}
 
     Provide your output in these sections:
+    
+    THE OUTPUT SHOULD BE LIKE 
+    all the informations are contained on seperate lines and should contain only the words or numbers nothing more
     Keyword match score
     skills match score
     format score
     3 matching skills
     3 missing skills
-
-    Personalized 3 step roadmap for each missing skill
-
-    also give me their priority 
-
-    • Missing Keywords (list)
-    • Profile Summary (concise)
-    • Personalized Suggestions for skills, keywords, and achievements
-    • Application Success Rate (percentage)
     """
 
     # 3. Query model and print result
-    ai_output = query_deepseek(prompt)
+    ai_output = query_deepseek(prompt).split("\n")
+    output = []
+    output.append(ai_output[:3])
+    output.append(ai_output[3:6])
+    output.append(ai_output[6:9])
     print("2. Analysis Result:\n")
-    print(ai_output)
+    print(output)
 
-    return ats_score, ai_output
+    return ats_score, output
 
 

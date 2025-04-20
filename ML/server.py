@@ -42,27 +42,10 @@ def generate_resume():
 
 @app.route('/ats_score_remarks', methods=['POST'])
 def get_ats_score_remarks():
-    content = request.json
-    resume_path = content.get("resumeUrl")
-    jd_path = content.get("jobDescription")
-
-    if not resume_path or not jd_path:
-        return jsonify({"error": "Missing resume_path or jd_path in request"}), 400
-
     try:
         # tex_file_path, resume_path  
-        matrix1 = np.array([1, 2, 0])
-        matrix2 = np.array(["asda", "asd", "as"])
-        matrix3 = np.array(["aa", "aaa", "asss"])
-
-        data = {
-            "matrix1": matrix1.tolist(),
-            "matrix2": matrix2.tolist(),
-            "matrix3": matrix3.tolist()
-        }
-        # data = ats_score.get_ats_and_remarks(resume_path, jd_path)
-        # ats_score, ai_output  
-        data = ats_score.get_ats_and_remarks(resume_path, jd_path)
+        ats, remarks = ats_score.get_ats_and_remarks()
+        data = {i:x for i, x in enumerate(remarks)}
         return jsonify(data)
     except Exception as e:
         print("error", e)

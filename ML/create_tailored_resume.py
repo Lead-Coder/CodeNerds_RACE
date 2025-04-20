@@ -318,7 +318,7 @@ Let's begin.
             resume_text_data = f.read()
 
     print(resume_text_data)
-    ats, remarks = ats_score.get_ats_and_remarks(resume_text_data, json.dumps(requirements))
+    ats, remarks = ats_score.get_ats_and_remarks()
 
 #         prompt = f"""
 # You are an expert resume writer and ATS optimization specialist.
