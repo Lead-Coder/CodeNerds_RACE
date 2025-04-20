@@ -14,18 +14,21 @@ const ResumeBuilder: React.FC = () => {
     resumeText: '',
   });
   const [generatedResumeUrl, setGeneratedResumeUrl] = useState('');
-  const [generatedLatexUrl , setGeneratedLatexUrl] = useState('');
+  const [generatedLatexUrl, setGeneratedLatexUrl] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Prevent default to ensure no reload
+    e.preventDefault();
     
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFile(file); // only set file here
+      setSelectedFile(file);
     }
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
+    // Prevent the default form submission behavior which causes page reload
     e.preventDefault();
     setLoading(true);
   
@@ -69,6 +72,8 @@ const ResumeBuilder: React.FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // Prevent default to ensure no reload
+    e.preventDefault();
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -76,8 +81,9 @@ const ResumeBuilder: React.FC = () => {
     });
   };
 
-
-  const handleReset = () => {
+  const handleReset = (e: React.MouseEvent) => {
+    // Prevent default to ensure no reload
+    e.preventDefault();
     setFormData({
       companyName: '',
       jobDescription: '',
@@ -86,6 +92,35 @@ const ResumeBuilder: React.FC = () => {
     });
     setSuccess(false);
     setGeneratedResumeUrl('');
+    setSelectedFile(null);
+  };
+
+  // Handle navigation without page reload
+  const handleNavigation = (e: React.MouseEvent, path: string) => {
+    e.preventDefault();
+    navigate(path);
+  };
+
+  // Handle file download without page reload
+  const handleDownload = (e: React.MouseEvent, url: string, filename: string) => {
+    e.preventDefault();
+    
+    // Create an anchor element and simulate a click
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Handle accordion toggle
+  const toggleAccordion = (e: React.MouseEvent, accordionId: string) => {
+    e.preventDefault();
+    const content = document.getElementById(accordionId);
+    if (content) {
+      content.classList.toggle('hidden');
+    }
   };
 
   return (
@@ -157,56 +192,57 @@ const ResumeBuilder: React.FC = () => {
               </div>
 
               {/* File Input */}
-      <div className="flex items-center justify-center w-full">
-        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-8 h-8 text-gray-500 mb-2">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-              />
-            </svg>
-            <p className="text-sm text-gray-600">
-              <span className="font-medium text-blue-600">Click to upload</span> or drag and drop
-            </p>
-            <p className="text-xs text-gray-500">PDF, DOCX or files (max. 5MB)</p>
-          </div>
-          <input
-            type="file"
-            accept=".pdf,.docx,.txt"
-            className="hidden"
-            onChange={handleFileChange}/>
-        </label>
-      </div>
-
-            {/* File Preview */}
-            {selectedFile && (
-                <div className="mt-3 p-3 border rounded bg-white shadow text-sm text-gray-700">
-                <p><strong>Selected File:</strong> {selectedFile.name}</p>
-                <p><strong>Size:</strong> {(selectedFile.size / 1024).toFixed(2)} KB</p>
-                </div>)}
-                </div>
-
-              <div>
-                <label htmlFor="resumeText" className="mt-5 block text-sm font-medium text-gray-700 mb-1">
-                  Upload resume above or paste your text content here.
+              <div className="flex items-center justify-center w-full">
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-8 h-8 text-gray-500 mb-2">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                      />
+                    </svg>
+                    <p className="text-sm text-gray-600">
+                      <span className="font-medium text-blue-600">Click to upload</span> or drag and drop
+                    </p>
+                    <p className="text-xs text-gray-500">PDF, DOCX or files (max. 5MB)</p>
+                  </div>
+                  <input
+                    type="file"
+                    accept=".pdf,.docx,.txt"
+                    className="hidden"
+                    onChange={handleFileChange}/>
                 </label>
-                <textarea
-                  name="resumeText"
-                  id="resumeText"
-                  value={formData.resumeText}
-                  onChange={handleChange}
-                  placeholder="Paste your current resume content here"
-                  rows={10}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
-              </div>      
+              </div>
+
+              {/* File Preview */}
+              {selectedFile && (
+                <div className="mt-3 p-3 border rounded bg-white shadow text-sm text-gray-700">
+                  <p><strong>Selected File:</strong> {selectedFile.name}</p>
+                  <p><strong>Size:</strong> {(selectedFile.size / 1024).toFixed(2)} KB</p>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="resumeText" className="mt-5 block text-sm font-medium text-gray-700 mb-1">
+                Upload resume above or paste your text content here.
+              </label>
+              <textarea
+                name="resumeText"
+                id="resumeText"
+                value={formData.resumeText}
+                onChange={handleChange}
+                placeholder="Paste your current resume content here"
+                rows={10}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"/>
+            </div>      
 
             <div className="mt-8 flex justify-end space-x-3">
               <button
@@ -218,7 +254,6 @@ const ResumeBuilder: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                onClick={handleSubmit}
                 className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}>
                 {loading ? (
                   <div className="flex items-center">
@@ -249,30 +284,28 @@ const ResumeBuilder: React.FC = () => {
               <p className="mt-2 text-gray-600">Your optimized resume is ready for download.</p>
               
               <div className="mt-6 space-y-4">
-                <a 
-                  href= '/output/tex.pdf'
-                  download
+                <button 
+                  onClick={(e) => handleDownload(e, '/output/tex.pdf', 'optimized-resume.pdf')}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
                   </svg>
                   Download PDF
-                </a>
+                </button>
                 
-                <a 
-                  href= '/output/tex.tex' 
-                  download
+                <button 
+                  onClick={(e) => handleDownload(e, '/output/tex.tex', 'resume-latex.tex')}
                   className="inline-flex items-center ml-3 px-4 py-2 border border-blue-600 text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                   </svg>
                   Download LaTeX Source
-                </a>
+                </button>
               </div>
               
               <div className="mt-6">
                 <button
-                  onClick = {() => navigate("/analysis")}
+                  onClick={(e) => handleNavigation(e, "/analysis")}
                   className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   Analyse the Resume
                 </button>
@@ -319,26 +352,30 @@ const ResumeBuilder: React.FC = () => {
         <h3 className="text-lg font-medium text-gray-900 mb-4">Frequently Asked Questions</h3>
         <div className="space-y-4">
           <div className="border border-gray-200 rounded-lg overflow-hidden">
-            <button className="flex justify-between w-full px-6 py-4 text-left text-gray-800 font-medium bg-white hover:bg-gray-50">
+            <button 
+              onClick={(e) => toggleAccordion(e, 'faq-1')}
+              className="flex justify-between w-full px-6 py-4 text-left text-gray-800 font-medium bg-white hover:bg-gray-50">
               <span>How does the resume builder work?</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-500">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </button>
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <div id="faq-1" className="px-6 py-4 bg-gray-50 border-t border-gray-200">
               <p className="text-gray-600">
                 Our AI-powered resume builder analyzes your existing resume and the job description to identify keywords and skills that match the job requirements. It then restructures your resume to highlight relevant experience and skills, formatting it professionally in LaTeX for a polished PDF output.
               </p>
             </div>
           </div>
           <div className="border border-gray-200 rounded-lg overflow-hidden">
-            <button className="flex justify-between w-full px-6 py-4 text-left text-gray-800 font-medium bg-white hover:bg-gray-50">
+            <button 
+              onClick={(e) => toggleAccordion(e, 'faq-2')}
+              className="flex justify-between w-full px-6 py-4 text-left text-gray-800 font-medium bg-white hover:bg-gray-50">
               <span>Can I edit the generated resume?</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-500">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </button>
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <div id="faq-2" className="px-6 py-4 bg-gray-50 border-t border-gray-200 hidden">
               <p className="text-gray-600">
                 Yes, you can edit your resume in the edit section.
               </p>

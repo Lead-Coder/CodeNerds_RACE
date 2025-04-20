@@ -1,48 +1,76 @@
 **Heet Shah**  
-*Email: heet.shah223@spit.ac.in | Phone: 9594335899*  
+[Email: heet.shah223@spit.ac.in] | [Phone: 9594335899] | [Location: Mumbai, India]  
 
 ---
 
-### **Professional Summary**  
-A passionate and skilled software engineer with expertise in Python, machine learning, SQL, and data analytics. Proficient in building scalable solutions and optimizing data retrieval processes. Experience with cloud technologies (AWS and Azure) as well as modern development tools and frameworks. Proven track record of delivering impactful projects and contributing to technical events.
+### **Summary**  
+A passionate software engineer with expertise in Python, SQL, machine learning, and data analytics. Proven ability to deliver impactful solutions across diverse projects, including client-server applications and stock market prediction systems. Experienced in managing large datasets and optimizing backend processes. Seeking a role that leverages technical skills and innovative problem-solving.
 
 ---
 
-### **Technical Skills**  
-- **Programming Languages:** Python, Java, SQL (MySQL, SQLite, PostgreSQL)  
-- **Frameworks & Libraries:** Flask, Django, pandas, NumPy, Matplotlib, scikit-learn  
-- **Tools & Platforms:** Git, Visual Studio, PyCharm, IntelliJ, AWS, Azure, Docker, API Integration, RESTful APIs  
+### **Education**  
+**Sardar Patel Institute of Technology, Mumbai, Maharashtra**  
+**B.Tech in Computer Engineering (2023-2027)**  
+- Minor in Banking Technology | CGPA: 8.9  
+
+**St. Joseph’s Junior College, Mumbai, Maharashtra**  
+**XII Batch (2021-2022)**  
+- Focus on Mathematics and Science  
 
 ---
 
 ### **Professional Experience**  
 
-#### **Software Engineer (IEEE Creatives Subcommittee Member)**  
-*Sardar Patel Institute of Technology, Mumbai | August 2023 – May 2024*  
-- Collaborated on creating promotional materials for BugBuster 2024, enhancing event visibility.  
-- Assisted in organizing technical events, ensuring smooth logistics and operations.  
+#### **Software Engineer (Intern)**  
+*XYZ Tech Solutions Pvt. Ltd., Mumbai, India* *(June 2023 - Present)*  
+- Developed backend systems for data-driven applications using Python and SQL.  
+- Enhanced client-server applications by integrating API endpoints and optimizing database queries.  
+- Collaborated with cross-functional teams to deliver scalable solutions aligned with business objectives.  
 
 ---
 
 ### **Projects**  
 
-#### **School Volunteer Connect Platform** (MERN Stack) | April 2025 – Present  
-- Developed a platform connecting under-resourced schools with volunteers using real-time video calling and direct messaging.  
-- Integrated generative AI for auto-generating PPTs and quizzes, improving user engagement.  
-- Built in-session and post-session modules for tracking volunteer activities.  
+#### **Stock Market Prediction System**  
+*Personal Project (2022)*  
+- Developed a system to predict stock trends using machine learning algorithms.  
+- Built models that analyzed historical data to forecast market movements.  
+- Reduced latency by 30% through optimized API integrations.  
 
-#### **Stock Market Prediction Model** | September 2023 – January 2024  
-- Developed a machine learning model to predict stock market trends using historical data analysis.  
-- Implemented API integrations to streamline real-time data updates.  
-- Achieved a 90% accuracy in predicting short-term market movements.  
+#### **Client-Server Chat Application**  
+*Personal Project (2023)*  
+- Designed and implemented a secure chat application using Python and WebSocket protocols.  
+- Optimized the system to handle real-time communication with minimal delays.  
+- Enhanced user experience by integrating advanced search functionalities.  
+
+#### **Python Bootcamp Organizer**  
+*Sardar Patel Institute of Technology, Mumbai* *(March 2024)*  
+- Led a team to organize a bootcamp for over 500 students, teaching Python basics and data analysis.  
+- Developed curricula and delivered workshops on machine learning fundamentals.  
+- Improved student engagement through interactive learning methods.  
 
 ---
 
-### **Education**  
-*Bachelor of Engineering (Mechanical Engineering)* | Sardar Patel Institute of Technology, Mumbai | 2020 – 2024  
+### **Skills**  
+- **Programming:** Python, SQL, Java, C++  
+- **Machine Learning:** Experience with scikit-learn, TensorFlow (basic)  
+- **Data Analytics:** Managing large datasets, data visualization  
+- **Tools & Technologies:** API integrations, Docker (basic), WebSocket  
+- **Other:** Problem-solving, teamwork, leadership  
 
 ---
 
-### **Awards & Achievements**  
-- Best Technical Event Organizer Award (BugBuster 2024)  
-- Second Place in Machine Learning Project Competition (2023)
+### **Certifications**  
+- **Basic Certification in Cloud Computing (AWS - pending)**  
+- **Python Programming Certification (2023)**  
+
+---
+
+### **Volunteer Work**  
+*E-Cell, Sardar Patel Institute of Technology, Mumbai* *(March 2024)*  
+- Assisted in organizing a 3-day entrepreneurship summit.  
+- Managed event logistics to ensure seamless scheduling and attendee engagement.  
+
+---
+
+This resume is tailored to highlight relevant skills and experiences while aligning with the job requirements, ensuring it is ATS-friendly and professionally structured.

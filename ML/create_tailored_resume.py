@@ -239,9 +239,10 @@ def query_deepseek(prompt: str) -> str:
     return output
 
 def create_improved_requirements(resume_json_str, requirements_json_str):
-    resume_data = json.loads(resume_json_str)
-    requirements_data = json.loads(requirements_json_str)
+    requirements_data = {"job_description": " asdasd"}
     try:
+        resume_data = json.loads(resume_json_str)
+        requirements_data = json.loads(requirements_json_str)
         # Parse JSON data
         resume_data = json.loads(resume_json_str)
         
@@ -507,7 +508,7 @@ def generate_cover_letter() -> str:
         resume_data = f.read()
 
     job_description_path = os.path.join(global_VARS["INPUT_DIR"], "job_description.txt")
-    with open(job_description_path, "r", encoding="utf-8") as f:
+    with open(job_description_path, "r", encoding="utf-8",errors="ignore") as f:
         job_description = f.read()
 
     prompt = f"""

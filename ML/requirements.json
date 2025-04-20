@@ -1,0 +1,20 @@
+{
+    "job_description": " asdasd",
+    "required_skills": [
+        "Python",
+        "SQL",
+        "Data Analytics",
+        "Machine Learning",
+        "Data Visualization",
+        "pandas",
+        "NumPy",
+        "Git",
+        "Java"
+    ],
+    "missing_skills": [
+        "AWS",
+        "Azure",
+        "Cloud Technologies",
+        "Docker"
+    ]
+}
