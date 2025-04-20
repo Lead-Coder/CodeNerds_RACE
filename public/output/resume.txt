@@ -1,1 +1,48 @@
-C:/GitHub/CodeNerds_RACE/public\output\resume.txt
+**Heet Shah**  
+*Email: heet.shah223@spit.ac.in | Phone: 9594335899*  
+
+---
+
+### **Professional Summary**  
+A passionate and skilled software engineer with expertise in Python, machine learning, SQL, and data analytics. Proficient in building scalable solutions and optimizing data retrieval processes. Experience with cloud technologies (AWS and Azure) as well as modern development tools and frameworks. Proven track record of delivering impactful projects and contributing to technical events.
+
+---
+
+### **Technical Skills**  
+- **Programming Languages:** Python, Java, SQL (MySQL, SQLite, PostgreSQL)  
+- **Frameworks & Libraries:** Flask, Django, pandas, NumPy, Matplotlib, scikit-learn  
+- **Tools & Platforms:** Git, Visual Studio, PyCharm, IntelliJ, AWS, Azure, Docker, API Integration, RESTful APIs  
+
+---
+
+### **Professional Experience**  
+
+#### **Software Engineer (IEEE Creatives Subcommittee Member)**  
+*Sardar Patel Institute of Technology, Mumbai | August 2023 – May 2024*  
+- Collaborated on creating promotional materials for BugBuster 2024, enhancing event visibility.  
+- Assisted in organizing technical events, ensuring smooth logistics and operations.  
+
+---
+
+### **Projects**  
+
+#### **School Volunteer Connect Platform** (MERN Stack) | April 2025 – Present  
+- Developed a platform connecting under-resourced schools with volunteers using real-time video calling and direct messaging.  
+- Integrated generative AI for auto-generating PPTs and quizzes, improving user engagement.  
+- Built in-session and post-session modules for tracking volunteer activities.  
+
+#### **Stock Market Prediction Model** | September 2023 – January 2024  
+- Developed a machine learning model to predict stock market trends using historical data analysis.  
+- Implemented API integrations to streamline real-time data updates.  
+- Achieved a 90% accuracy in predicting short-term market movements.  
+
+---
+
+### **Education**  
+*Bachelor of Engineering (Mechanical Engineering)* | Sardar Patel Institute of Technology, Mumbai | 2020 – 2024  
+
+---
+
+### **Awards & Achievements**  
+- Best Technical Event Organizer Award (BugBuster 2024)  
+- Second Place in Machine Learning Project Competition (2023)

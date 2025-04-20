@@ -1,80 +1,165 @@
-\documentclass{article}
-\usepackage{fontspec}
-\setdefaultfont{\sffamily}
-\usepackage{flushright}
-\numberschap
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+
+% Set font
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Custom commands with proper date alignment
+\newcommand{\resumeItem}[1]{
+  \item\small{#1}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small#4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\newcommand{\resumeProjectHeading}[2]{
+  \item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \small\textbf{#1} & \small{#2} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.25in, label=\textbullet]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+% Prevent overfull hbox warnings
+\sloppy
+
 \begin{document}
 
-\center{
-    \vspace*{1cm}
-    
-    \textbf{..\textbackslashpublic\textbackslashoutput\textbackslashresume.txt}
-    
-    \vspace{1cm}
-    
-    \section{Objective}
-        \vspace*{1cm}
-        [Objective description]
-        \vspace{1cm}
-        
-    \section{Education}
-        \vspace*{1cm}
-        \textbf{Education:} 
-        [Location], [Degree], [University Name] - \alignleft\{Month, Year\}\alignright
-        \vspace{1cm}
-        
-    \section{Experience}
-        \vspace*{1cm}
-        \textbf{Experience:}
-            \begin{itemize}
-                \item \indent Position - Company Name, Location \alignleft\{Month, Year\}\alignright
-                \item Key responsibilities and achievements
-            \end{itemize}
-        \vspace{1cm}
-        
-    \section{Projects}
-        \vspace*{1cm}
-        \textbf{Projects:}
-            \begin{itemize}
-                \item \indent Project Name - Month, Year
-                \item Brief description and contributions
-            \end{itemize}
-        \vspace{1cm}
-        
-    \section{Skills}
-        \vspace*{1cm}
-        \textbf{Skills:}
-            \begin{itemize}
-                \item \indent Skill 1, Skill 2, Skill 3
-            \end{itemize}
-        \vspace{1cm}
-        
-    \section{Volunteering}
-        \vspace*{1cm}
-        \textbf{Volunteering:}
-            \begin{itemize}
-                \item \indent Volunteer Role - Organization Name, Location \alignleft\{Month, Year\}\alignright
-                \item Contributions and responsibilities
-            \end{itemize}
-        \vspace{1cm}
-        
-    \section{Additional Information}
-        \vspace*{1cm}
-        \textbf{Additional Information:}
-            \begin{itemize}
-                \item \indent Additional info or notes
-            \end{itemize}
-        \vspace{1cm}
-        
-    \section{Contact Information}
-        \vspace*{1cm}
-        \begin{itemize}
-            \item \textbf{..\textbackslashpublic\textbackslashoutput\textbackslashresume.txt}
-            \item  - 
-            \item Phone: (123) 456-7890
-            \item Email: john.doe@email.com
-        \end{itemize}
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Heet Shah} \\ \vspace{1pt}
+    \small Mumbai, Maharashtra \\ \vspace{2pt}
+    \small \href{mailto:heet.shah223@spit.ac.in}{\underline{heet.shah223@spit.ac.in}} $|$ 
+    \href{tel:9594335899}{\underline{9594335899}}
+\end{center}
 
-}
+\section{OBJECTIVE}
+Enthusiastic and detail-oriented B.Tech Computer Engineering student with a strong foundation in Python, machine learning, and SQL. Passionate about solving real-world problems through data-driven approaches and software engineering. Seeking an opportunity to contribute to impactful projects leveraging cloud technologies, big data, and analytics.
+
+\section{EDUCATION}
+\resumeSubHeadingListStart
+\resumeSubheading{Sardar Patel Institute of Technology, Mumbai B.Tech in Computer Engineering (-2027)}{2023}{}{}
+\resumeSubheading{- Minor: Banking Technology}{}{}{}
+\resumeSubheading{- CGPA: 8.9}{}{}{}
+\resumeSubheading{St. Joseph's Junior College, Mumbai HSC (-2023) - 89.83\%}{2021}{}{}
+\resumeSubHeadingListEnd
+
+\section{EXPERIENCE}
+\resumeSubHeadingListStart
+\resumeSubheading{IEEE Creatives Subcommittee Member Sardar Patel Institute of Technology,}{Aug 2023 - May 2024}{}{}
+\resumeSubheading{Designed marketing material and stage decor for BugBus and other technical events.}{ter 2024}{}{}
+\resumeSubheading{- Collaborated with cross-functional teams to enhance visual branding and logistics coordination.}{}{}{}
+\resumeSubHeadingListEnd
+
+\section{PROJECTS}
+\resumeSubHeadingListStart
+\resumeProjectHeading{School Volunteer Connect Platform}{Apr 2025 - Present}
+\resumeItemListStart
+\resumeItem{MERN Stack, Generative AI, Docker, AWS}
+\resumeItemListEnd
+\resumeProjectHeading{- Architected and deployed a web platform connecting under-resourced schools with volunteers via real-time video and DM.}{}
+\resumeProjectHeading{- Integrated Generative AI to auto-generate instructional PPTs and quizzes based on curriculum input.}{}
+\resumeProjectHeading{- Developed scheduling, feedback analytics, and performance modules enhancing user retention by 35\%.}{}
+\resumeProjectHeading{- Deployed modules on AWS and containerized with Docker for scalability and reliability.}{}
+\resumeProjectHeading{Technical Paper Search Engine}{Feb 2025 - Present}
+\resumeItemListStart
+\resumeItem{Java, JavaFX, API Integration}
+\resumeItemListEnd
+\resumeProjectHeading{- Engineered a cross-platform desktop app fetching scholarly articles from arXiv and similar APIs.}{}
+\resumeProjectHeading{- Designed responsive UI in JavaFX with dynamic filtering, keyword highlighting, and async fetch.}{}
+\resumeProjectHeading{- Optimized retrieval latency by 60\% using multi-threaded requests and caching techniques.}{}
+\resumeProjectHeading{Client-Server Chat Application}{Jan 2025 - Feb 2025}
+\resumeItemListStart
+\resumeItem{Java, Sockets, Multithreading}
+\resumeItemListEnd
+\resumeProjectHeading{- Developed a real-time LAN messaging system supporting multiple users via socket programming.}{}
+\resumeProjectHeading{- Enabled secure file sharing and chat encryption using custom protocols and thread-safe buffers.}{}
+\resumeProjectHeading{Stock Market Prediction System}{Sep 2024 - Dec 2024}
+\resumeItemListStart
+\resumeItem{Python, Tkinter, scikit-learn, SQLite3}
+\resumeItemListEnd
+\resumeProjectHeading{- Created a machine learning pipeline using Random Forests to predict Nifty 500 stock trends.}{}
+\resumeProjectHeading{- Built a user-friendly Tkinter GUI allowing interactive charting and historical trend visualization.}{}
+\resumeProjectHeading{- Managed 182K+ records efficiently with SQLite3, achieving 78\% accuracy in trend prediction.}{}
+\resumeSubHeadingListEnd
+
+\section{SKILLS}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\item - Languages: Python, Java, C, SQL (MySQL, SQLite, PostgreSQL)
+\item - Frameworks: JavaFX, Tkinter, Express.js, Node.js
+\item - Libraries \& Tools: pandas, NumPy, Matplotlib, scikit-learn, Git, Docker, Visual Studio, PyCharm, IntelliJ
+\item - Cloud \& DevOps: Familiar with AWS, Docker, version control, and agile practices
+\item - Other: Data Analytics, OOP, Networking Concepts, Multithreading, Database Management
+\item - Competitive Programming: 
+\item - Codeforces: 1049 Rated
+\item - LeetCode: 250+ Questions Solved
+\end{itemize}
+
+\section{VOLUNTEERING}
+\resumeSubHeadingListStart
+\resumeSubheading{Python Bootcamp \& Career Mentor}{}{}{}
+\resumeSubheading{}{May 2024 - Jun 2024}{}{}
+\resumeSubheading{- Delivered Python programming sessions to 50+ school students from underrepresented communities.}{}{}{}
+\resumeSubheading{- Offered personalized mentorship and college guidance to improve STEM outreach.}{}{}{}
+\resumeSubheading{E-Cell Volunteer - E-Sum}{mit 2024}{}{}
+\resumeSubheading{}{Mar 2024}{}{}
+\resumeSubheading{- Led logistics and on-ground coordination for a 3-day entrepreneurship summit.}{}{}{}
+\resumeSubheading{- Ensured seamless scheduling and attendee engagement across multiple venues.}{}{}{}
+\resumeSubheading{ADDITIONAL HIGHLIGHTS}{}{}{}
+\resumeSubheading{- Familiar with SDLC, agile methods, and collaborative development environments}{}{}{}
+\resumeSubheading{- Passionate about building educational tools, research utilities, and socially impactful software}{}{}{}
+\resumeSubheading{- Strong written and verbal communication; proven team contributor in hackathons and college clubs}{}{}{}
+\resumeSubheading{References available upon request.}{}{}{}
+\resumeSubHeadingListEnd
+
+
 
 \end{document}
