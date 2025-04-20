@@ -255,26 +255,29 @@ def format_section(title, items):
     return '\n'.join(latex)
 
 
+
+import re
+
 def convert_resume_format(text):
-    # Convert markdown bold (e.g., **Header**) to UPPERCASE plain text
-    text = re.sub(r'\*\*(.*?)\*\*', lambda m: m.group(1).upper(), text)
-
-    # Replace em dashes with regular dashes
-    text = text.replace("�", "-")
-
-    # Remove markdown horizontal rules (---)
-    text = re.sub(r'\n-{3,}\n', '\n\n', text)
-
-    # Fix bullet points and spacing
-    text = re.sub(r'^\s*-\s*', '- ', text, flags=re.MULTILINE)
-    text = re.sub(r'^\s*\*\s*', '- ', text, flags=re.MULTILINE)
-
-    # Convert markdown headers (e.g., ###) to uppercase section titles
-    text = re.sub(r'^\s*#{1,6}\s*(.+)', lambda m: m.group(1).upper(), text, flags=re.MULTILINE)
-
-    # Clean up spacing
-    text = re.sub(r'\n{3,}', '\n\n', text)
-    return text.strip()
+    lines = []
+    for line in text.splitlines():
+        if(line.startswith("###")):
+           line = line[7:]
+           list = [] 
+           for i in range(len(line)):
+               if(line[i]=='*'):
+                   list.append(i)
+           line = line[list[1]:list[-2]]
+           line = line.upper()
+        elif line.contains("**"):
+            list = []
+            for i in range(len(line)):
+               if(line[i]=='*'):
+                   list.append(i)
+            line = line[list[1]:list[-2]]
+            line = line.upper()
+        lines.append(line)
+    return lines
 
 # Example usage
 # if __name__ == "__main__":
@@ -295,14 +298,19 @@ def main():
         sys.exit(1)
     
     try:
-        resume_text = convert_resume_format(sys.argv[1])
-        with open(sys.argv[1], "w", encoding="utf-8") as f:
-            f.write(resume_text)
-
-        with open(sys.argv[1], 'r', encoding='utf-8', errors='replace') as f:
+        # print(convert_resume_format(sys.argv[1]))
+       # resume_text = convert_resume_format(sys.argv[1])
+        resume_text = ""
+        with open(r"C:\GitHub\CodeNerds_RACE\public\output\resume_2.txt", "r", encoding="utf-8") as f:
             resume_text = f.read()
+        # with open(sys.argv[1], "w", encoding="utf-8") as f:
+            # f.write(resume_text)
+
+        # with open(sys.argv[1], 'r', encoding='utf-8', errors='replace') as f:
+            # resume_text = f.read()
         
         data = parse_resume(resume_text)
+        print(data)
         
         # Generate initial LaTeX template
         template_prompt = r"""

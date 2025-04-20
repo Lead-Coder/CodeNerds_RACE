@@ -1,0 +1,93 @@
+Heet Shah
+ heet.shah223@spit.ac.in |  9594335899
+ Mumbai, Maharashtra
+
+---
+
+OBJECTIVE
+Enthusiastic and detail-oriented B.Tech Computer Engineering student with a strong foundation in Python, machine learning, and SQL. Passionate about solving real-world problems through data-driven approaches and software engineering. Seeking an opportunity to contribute to impactful projects leveraging cloud technologies, big data, and analytics.
+
+---
+
+SKILLS
+- Languages: Python, Java, C, SQL (MySQL, SQLite, PostgreSQL)
+- Frameworks: JavaFX, Tkinter, Express.js, Node.js
+- Libraries & Tools: pandas, NumPy, Matplotlib, scikit-learn, Git, Docker, Visual Studio, PyCharm, IntelliJ
+- Cloud & DevOps: Familiar with AWS, Docker, version control, and agile practices
+- Other: Data Analytics, OOP, Networking Concepts, Multithreading, Database Management
+- Competitive Programming:
+  - Codeforces: 1049 Rated
+  - LeetCode: 250+ Questions Solved
+
+---
+
+EDUCATION
+Sardar Patel Institute of Technology, Mumbai
+B.Tech in Computer Engineering (2023–2027)
+- Minor: Banking Technology
+- CGPA: 8.9
+
+St. Joseph’s Junior College, Mumbai
+HSC (2021–2023) – 89.83%
+
+---
+
+PROJECTS
+
+School Volunteer Connect Platform | MERN Stack, Generative AI, Docker, AWS
+Apr 2025 – Present
+- Architected and deployed a web platform connecting under-resourced schools with volunteers via real-time video and DM.
+- Integrated Generative AI to auto-generate instructional PPTs and quizzes based on curriculum input.
+- Developed scheduling, feedback analytics, and performance modules enhancing user retention by 35%.
+- Deployed modules on AWS and containerized with Docker for scalability and reliability.
+
+Technical Paper Search Engine | Java, JavaFX, API Integration
+Feb 2025 – Present
+- Engineered a cross-platform desktop app fetching scholarly articles from arXiv and similar APIs.
+- Designed responsive UI in JavaFX with dynamic filtering, keyword highlighting, and async fetch.
+- Optimized retrieval latency by 60% using multi-threaded requests and caching techniques.
+
+Client-Server Chat Application | Java, Sockets, Multithreading
+Jan 2025 – Feb 2025
+- Developed a real-time LAN messaging system supporting multiple users via socket programming.
+- Enabled secure file sharing and chat encryption using custom protocols and thread-safe buffers.
+
+Stock Market Prediction System | Python, Tkinter, scikit-learn, SQLite3
+Sep 2024 – Dec 2024
+- Created a machine learning pipeline using Random Forests to predict Nifty 500 stock trends.
+- Built a user-friendly Tkinter GUI allowing interactive charting and historical trend visualization.
+- Managed 182K+ records efficiently with SQLite3, achieving 78% accuracy in trend prediction.
+
+---
+
+EXPERIENCE
+
+IEEE Creatives Subcommittee Member
+Sardar Patel Institute of Technology, Aug 2023 – May 2024
+- Designed marketing material and stage decor for BugBuster 2024 and other technical events.
+- Collaborated with cross-functional teams to enhance visual branding and logistics coordination.
+
+---
+
+VOLUNTEERING
+
+Python Bootcamp & Career Mentor
+May 2024 – Jun 2024
+- Delivered Python programming sessions to 50+ school students from underrepresented communities.
+- Offered personalized mentorship and college guidance to improve STEM outreach.
+
+E-Cell Volunteer – E-Summit 2024
+Mar 2024
+- Led logistics and on-ground coordination for a 3-day entrepreneurship summit.
+- Ensured seamless scheduling and attendee engagement across multiple venues.
+
+---
+
+ADDITIONAL HIGHLIGHTS
+- Familiar with SDLC, agile methods, and collaborative development environments
+- Passionate about building educational tools, research utilities, and socially impactful software
+- Strong written and verbal communication; proven team contributor in hackathons and college clubs
+
+---
+
+References available upon request.
