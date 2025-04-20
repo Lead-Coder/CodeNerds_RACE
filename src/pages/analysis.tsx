@@ -47,12 +47,80 @@ const SKILL_ROADMAPS = {
   "Go": "/golang",
 };
 
+type LearningPath = {
+  title: string;
+  link: string;
+  description: string;
+};
+
+const learningPaths: LearningPath[] = [
+  {
+    title: "Learn the basics of Next.js",
+    link: "https://nextjs.org/learn/basics/create-nextjs-app",
+    description: "Start your journey by understanding the fundamental concepts of Next.js, including pages, routing, and basic configuration."
+  },
+  {
+    title: "Mastering Server-side Rendering",
+    link: "https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering",
+    description: "Dive deep into SSR and learn how to build SEO-friendly and performance-optimized web applications with Next.js."
+  },
+  {
+    title: "API Routes in React.js",
+    link: "https://nextjs.org/docs/pages/building-your-application/routing/api-routes",
+    description: "Learn to build serverless API endpoints directly in your React apps using Next.js API routes."
+  },
+  {
+    title: "Authentication in Django",
+    link: "https://next-auth.js.org/getting-started/example",
+    description: "Explore secure user authentication methods and best practices with Django and third-party providers."
+  },
+  {
+    title: "Studying GraphQL Algorithms",
+    link: "https://vercel.com/docs",
+    description: "Understand the core algorithms behind GraphQL, including query planning, schema design, and resolver logic."
+  },
+  {
+    title: "Have a good grasp on Artificial Intelligence and Machine Learning",
+    link: "https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes",
+    description: "Build a strong foundation in AI/ML and explore real-world applications using modern tools and frameworks."
+  },
+  {
+    title: "State Management with Redux Toolkit",
+    link: "https://redux-toolkit.js.org/introduction/getting-started",
+    description: "Master efficient state management in React applications using Redux Toolkit's simplified approach and powerful features."
+  },
+  {
+    title: "Building RESTful APIs with Express.js",
+    link: "https://expressjs.com/en/starter/basic-routing.html",
+    description: "Learn to structure and build scalable RESTful APIs using Express.js with best practices for routing and middleware."
+  },
+  {
+    title: "Exploring TypeScript with React",
+    link: "https://react-typescript-cheatsheet.netlify.app/",
+    description: "Enhance your React codebase by integrating TypeScript, improving type safety and development efficiency."
+  },
+  {
+    title: "Responsive Design with Tailwind CSS",
+    link: "https://tailwindcss.com/docs/responsive-design",
+    description: "Create visually stunning and fully responsive interfaces using the utility-first approach of Tailwind CSS."
+  }  
+];
+
+
 const ATSAnalysis: React.FC = () => {
+
   const location = useLocation();
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
-  const [data,setData] = useState<any>(null);
+  const [visiblePaths, setVisiblePaths] = useState<{ title: string; link: string }[]>([]);
+
+  useEffect(() => {
+    // Shuffle the array and pick the first 3
+    const shuffled = [...learningPaths].sort(() => 0.5 - Math.random())
+    setVisiblePaths(shuffled.slice(0, 3))
+  }, [])
+  
   // In a real app, you would fetch the analysis results from your API
   useEffect(() => {
     // Mock API call
@@ -397,113 +465,23 @@ const ATSAnalysis: React.FC = () => {
             </div>
           )}
 
-          {/* Learning Roadmap Tab */}
           {activeTab === 'roadmap' && (
-            <div>
-              <div className="mb-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Learning Roadmaps</h3>
-                 <Link
-                 to="/roadmap"
-                 className="mb-8 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition duration-200">Get Roadmap
-                 </Link>
-                <p className="text-gray-600 my-4">
-                  Below are recommended learning paths from <a href="https://roadmap.sh" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">roadmap.sh</a> to help you acquire the missing skills for this position.
-                </p>
+          <div className="space-y-4">
+            {visiblePaths.map((path, index) => (
+              <div key={index} className="p-4 rounded-2xl shadow-md bg-white hover:shadow-lg transition-shadow border border-gray-200">
+                <a
+                  href={path.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg font-semibold text-blue-700 hover:underline"
+                >
+                  {path.title}
+                </a>
+                <p className="text-sm text-gray-600 mt-1">{path.description}</p>
               </div>
-
-              {analysisData.missingSkills.map((skill: any, index: number) => (
-                <div key={index} className="mb-8 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
-                  <div className="bg-blue-50 px-6 py-4 border-b border-gray-200">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-lg font-medium text-gray-900">{skill.name} Learning Path</h4>
-                      {getImportanceBadge(skill.importance)}
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="space-y-6">
-                      {/* Step 1 */}
-                      <div className="relative pl-8 pb-6 border-l-2 border-blue-200">
-                        <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500"></div>
-                        <h5 className="font-medium text-gray-900">Fundamentals</h5>
-                        <p className="mt-2 text-sm text-gray-600">
-                          Learn the basic concepts and core principles of {skill.name}.
-                        </p>
-                        <div className="mt-3">
-                          <a 
-                            href={`https://roadmap.sh${SKILL_ROADMAPS[skill.name as keyof typeof SKILL_ROADMAPS] || '/frontend'}`} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-sm text-blue-600 hover:underline">
-                            View detailed guide on roadmap.sh
-                          </a>
-                        </div>
-                      </div>
-                      
-                      {/* Step 2 */}
-                      <div className="relative pl-8 pb-6 border-l-2 border-blue-200">
-                        <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500"></div>
-                        <h5 className="font-medium text-gray-900">Hands-on Projects</h5>
-                        <p className="mt-2 text-sm text-gray-600">
-                          Build practical projects to solidify your understanding of {skill.name}.
-                        </p>
-                        <div className="mt-3">
-                          <button className="text-sm text-blue-600 hover:underline">
-                            View recommended projects
-                          </button>
-                        </div>
-                      </div>
-                      
-                      {/* Step 3 */}
-                      <div className="relative pl-8">
-                        <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full bg-blue-500"></div>
-                        <h5 className="font-medium text-gray-900">Advanced Topics</h5>
-                        <p className="mt-2 text-sm text-gray-600">
-                          Explore advanced concepts and best practices for {skill.name}.
-                        </p>
-                        <div className="mt-3">
-                          <button className="text-sm text-blue-600 hover:underline">
-                            View advanced resources
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 pt-6 border-t border-gray-200">
-                      <h5 className="font-medium text-gray-900 mb-3">Recommended Resources</h5>
-                      <div className="space-y-3">
-                        <div className="flex items-start">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-500 mr-2 mt-0.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                          </svg>
-                          <div>
-                            <h6 className="text-sm font-medium text-gray-900">Official Documentation</h6>
-                            <p className="text-sm text-gray-600">{skill.name} comprehensive guide</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-500 mr-2 mt-0.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
-                          </svg>
-                          <div>
-                            <h6 className="text-sm font-medium text-gray-900">Video Course</h6>
-                            <p className="text-sm text-gray-600">Complete {skill.name} tutorial series</p>
-                          </div>
-                        </div>
-                        <div className="flex items-start">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-blue-500 mr-2 mt-0.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
-                          </svg>
-                          <div>
-                            <h6 className="text-sm font-medium text-gray-900">Interactive Learning</h6>
-                            <p className="text-sm text-gray-600">Practice-based {skill.name} learning platform</p>
-                          </div>
-                        </div>
-                    </div>
-                 </div>
-              </div>          
-           </div>))}
+            ))}
           </div>)}
+
         </div>
       </div>
     </div>
